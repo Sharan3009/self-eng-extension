@@ -1,25 +1,14 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
+  "manifest_version": 2,
+  "name": "self-eng-learn",
+  "short_name": "self-eng",
+  "version": "1.0.0",
+  "permissions": [ "notifications", "contextMenus", "tabs", "storage" ],
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "Self learning English"
+  },
+  "web_accessible_resources": [
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-pMt3wxVq2SfXeHGmnqP21dUMpb6r0rRBOaLuWFXPZ+g' https://ssl.google-analytics.com https://www.google-analytics.com/analytics.js https://connect.facebook.net https://platform.twitter.com https://staticxx.facebook.com; object-src 'self'"
 }
