@@ -8,7 +8,6 @@ class App extends React.Component {
       return(
         <BrowserRouter>
           <Switch>
-
           </Switch>
         </BrowserRouter>
       )
