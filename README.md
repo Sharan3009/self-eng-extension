@@ -7,12 +7,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 In the project directory, you can run:
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- `set PORT=4200` is added to run the server on port 4200 instead.
+- Runs the app in the development mode
+- Open [http://localhost:4200](http://localhost:4200) to view it in the browser.
+- The page will reload if you make edits.\
+- You will also see any lint errors in the console.
 
 ### `npm test`
 
@@ -20,12 +19,11 @@ Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `set \"INLINE_RUNTIME_CHUNK=false\"` is added in the command because firefox content_security_policy does not allow inline scripts in the index.html page. Therefore, this command will hinder the build to put inline commands.
+- Note: `double quotes` are necessary to make it work.
+- Builds the app for production to the `build` folder.\
+- It correctly bundles React in production mode and optimizes the build for the best performance.
+- The build is minified and the filenames include the hashes.\
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
