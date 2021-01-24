@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { Redirect, RouteComponentProps } from "react-router-dom";
 
-class Login extends Component {
+class Login extends Component<RouteComponentProps> {
     render(){
-        return <div>Login</div>
+        return <div onClick={()=>this.props.history.push("/home")}>Login</div>
     }
 }
 
