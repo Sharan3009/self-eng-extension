@@ -1,5 +1,6 @@
 import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
+import Settings from "../components/main/settings";
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -89,7 +90,7 @@ export default function FullWidthTabs() {
           Item Two
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          <Settings />
         </TabPanel>
       </SwipeableViews>
     </div>
