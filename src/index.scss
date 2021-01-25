@@ -1,6 +1,10 @@
 @import '~bootstrap/scss/bootstrap.scss';
 
 html,body{
-  height:500px;
+  height:400px;
   width:350px;
+}
+
+body, body * {
+  font-family: Roboto,arial,sans-serif;
 }
