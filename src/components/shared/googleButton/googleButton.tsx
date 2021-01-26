@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./googleButton.module.scss";
   
-const GoogleButton = ():JSX.Element => {
+const GoogleButton = ({onClick}:{onClick:(event:React.MouseEvent<HTMLButtonElement,MouseEvent>)=>void}):JSX.Element => {
   return (
-    <button className={`btn ${styles.google_btn} btn-primary p-0 d-flex wpx-240`}>
+    <button className={`btn ${styles.google_btn} btn-primary p-0 d-flex wpx-240`} onClick={onClick}>
           <div className={`bg-white ${styles.google_icon_bg} rounded-left d-flex align-items-center justify-content-center h-100`}>
             <img src="/images/svg/google_icon.svg" alt="Google icon"/>
           </div>

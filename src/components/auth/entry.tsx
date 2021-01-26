@@ -6,10 +6,6 @@ import Signup from "../shared/authButton/authButton";
 
 class Entry extends Component<RouteComponentProps> {
 
-    // componentDidMount(){
-    //     google.init();
-    // }
-
     redirectToLogin = ():void =>{
         this.props.history.push("/login");
     }
@@ -18,9 +14,13 @@ class Entry extends Component<RouteComponentProps> {
         this.props.history.push("/signup");
     }
 
+    loginWithGoogle = ():void => {
+        google.init();
+    }
+
     render(){
         return <div className="absolute-center">
-                <GoogleButton />
+                <GoogleButton onClick={this.loginWithGoogle}/>
                 <div className="d-flex align-items-center text-muted py-2">
                     <div className="col border-bottom h-50"></div>
                     <div className="px-2">or</div>
