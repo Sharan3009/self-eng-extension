@@ -2,6 +2,8 @@ import { Executor } from "../Interface/Executor";
 
 class Storage {
 
+    private watching:boolean=false;
+
     public get = <T,>(key:string):Promise<T> =>{
         return new Promise((resolve:Executor)=>{
             chrome.storage.local.get(key,(data)=>{
@@ -42,7 +44,17 @@ class Storage {
                 resolve(data);
             })
         })
-    } 
+    }
+
+    public watchStorageKey = (key:string,cb:(values:chrome.storage.StorageChange)=>void) => {
+        if(!this.watching){
+            chrome.storage.onChanged.addListener((changes:{[key:string]:chrome.storage.StorageChange}) => {
+                cb(changes[key] || {});
+            })
+            this.watching = true;
+        }
+    }
+
 }
 
 export default new Storage();

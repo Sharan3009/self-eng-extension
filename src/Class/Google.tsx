@@ -1,4 +1,5 @@
 import { BgRequest } from "../Interface/Background";
+import storage from "./Storage";
 class GoogleSSO {
 
     private key:string = "authToken";
@@ -11,11 +12,9 @@ class GoogleSSO {
     }
 
     public watchAuthToken = (cb:Function):void => {
-        chrome.storage.onChanged.addListener((changes:{[key:string]:chrome.storage.StorageChange})=>{
-            if(this.key in changes){
-                if(changes[this.key].newValue){
-                    cb();
-                }
+        storage.watchStorageKey(this.key,(values)=>{
+            if(values.newValue){
+                cb(values);
             }
         })
     }
