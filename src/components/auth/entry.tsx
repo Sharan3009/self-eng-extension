@@ -18,6 +18,12 @@ class Entry extends Component<RouteComponentProps> {
         google.init();
     }
 
+    componentDidMount(){
+        google.watchAuthToken(()=>{
+            this.props.history.push("/home")
+        })
+    }
+
     render(){
         return <div className="absolute-center">
                 <GoogleButton onClick={this.loginWithGoogle}/>
