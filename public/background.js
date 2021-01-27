@@ -5,7 +5,12 @@ chrome.runtime.onMessage.addListener(function (requestObj, sender, sendMessage) 
     switch (requestObj.type) {        
 
         case "google": {
-            chrome.windows.create({ url: "http://localhost:3000/api/v1/google/auth", type: "popup" }, (window) => {
+            let popupWidth = 460;
+            let popupHeight=560;
+            chrome.windows.create({ url: "http://localhost:3000/api/v1/google/auth", type: "popup",
+             width: popupWidth, height:popupHeight, 
+             top:screen.height/2-popupHeight/2, 
+             left:screen.width/2-popupWidth/2 }, (window) => {
                 chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo, tab) {
                     if (window?.tabs && tabId === window?.tabs[0].id) {
                         if (tab.status === "complete" && tab.title) {
