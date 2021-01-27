@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Redirect, RouteComponentProps } from "react-router-dom";
+import {RouteComponentProps } from "react-router-dom";
 import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
+import { TargetElement } from "@testing-library/user-event";
 
 class SignUp extends Component<RouteComponentProps> {
 
@@ -11,6 +12,13 @@ class SignUp extends Component<RouteComponentProps> {
 
     render(){
         return <form className="absolute-center">
+                    <TextField
+                        label="Name"
+                        variant="outlined"
+                        type="text"
+                        className="pb-3 wpx-240"
+                        size="small"
+                    />
                     <TextField
                         label="Email"
                         variant="outlined"
