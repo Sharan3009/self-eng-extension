@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {RouteComponentProps } from "react-router-dom";
 import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
-import { TargetElement } from "@testing-library/user-event";
 
 class SignUp extends Component<RouteComponentProps> {
 
