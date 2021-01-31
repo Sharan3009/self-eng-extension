@@ -3,7 +3,7 @@ import styles from "./authButton.module.scss";
   
 type AuthButtonProps = {
   text:string,
-  onClick: (event:React.MouseEvent<HTMLButtonElement,MouseEvent>)=>void
+  onClick?: (event:React.MouseEvent<HTMLButtonElement,MouseEvent>)=>void
 }
 
 const AuthButton = ({text, onClick}:AuthButtonProps):JSX.Element => {
