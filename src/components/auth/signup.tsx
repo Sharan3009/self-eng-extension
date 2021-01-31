@@ -4,10 +4,10 @@ import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
 import { connect } from "react-redux";
-import { ISignUp } from "../../Interface/CredentialForm";
+import { ISignUpForm } from "../../Interface/CredentialForm";
 import {setFormData} from "../../actions/auth/signup";
 
-class SignUp extends Component<RouteComponentProps&ISignUp&Store> {
+class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
 
     private signup = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -16,7 +16,7 @@ class SignUp extends Component<RouteComponentProps&ISignUp&Store> {
 
     private setForm = (e:FormEvent<HTMLInputElement|HTMLTextAreaElement>) => {
         const {name,value} = (e.target as HTMLInputElement);
-        this.props.dispatch(setFormData(name,value))
+        this.props.dispatch(setFormData(name,value,true))
     }
 
     render(){
@@ -24,23 +24,25 @@ class SignUp extends Component<RouteComponentProps&ISignUp&Store> {
         const {name,email,password,confirmPassword} = this.props;
         return <form className="absolute-center" onSubmit={this.signup}>
                     <TextField
+                        error={name.error}
                         label="Name"
                         name="name"
                         variant="outlined"
                         type="text"
                         className="pb-3 wpx-240"
                         size="small"
-                        value={name}
+                        value={name.value}
                         onChange={this.setForm}
                     />
                     <TextField
+                        error={email.error}
                         label="Email"
                         name="email"
                         variant="outlined"
                         type="email"
                         className="pb-3 wpx-240"
                         size="small"
-                        value={email}
+                        value={email.value}
                         onChange={this.setForm}
                         />
                     <TextField
@@ -50,17 +52,18 @@ class SignUp extends Component<RouteComponentProps&ISignUp&Store> {
                         type="password"
                         className="pb-3 wpx-240"
                         size="small"
-                        value={password}
+                        value={password.value}
                         onChange={this.setForm}
                         />
                     <TextField
+                        error={confirmPassword.error}
                         label="Confirm Password"
                         name="confirmPassword"
                         variant="outlined"
                         type="password"
                         className="pb-3 wpx-240"
                         size="small"
-                        value={confirmPassword}
+                        value={confirmPassword.value}
                         onChange={this.setForm}
                         />
                     <SignupButton text="Sign up"/>
@@ -69,7 +72,7 @@ class SignUp extends Component<RouteComponentProps&ISignUp&Store> {
 }
 
 type S2P = {
-    signup:ISignUp
+    signup:ISignUpForm
 }
 const mapStateToProps = ({signup}:S2P) => {
      const {name,email,password,confirmPassword} = signup;

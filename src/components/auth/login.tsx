@@ -2,12 +2,12 @@ import { Component, FormEvent } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import LoginButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
-import { ILogin } from "../../Interface/CredentialForm";
+import { ILoginForm } from "../../Interface/CredentialForm";
 import { compose, Store } from "redux";
 import { setFormData } from "../../actions/auth/login";
 import { connect } from "react-redux";
 
-class Login extends Component<RouteComponentProps&ILogin&Store> {
+class Login extends Component<RouteComponentProps&ILoginForm&Store> {
 
     private login = (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
@@ -53,7 +53,7 @@ class Login extends Component<RouteComponentProps&ILogin&Store> {
 }
 
 type S2P = {
-    login:ILogin
+    login:ILoginForm
 }
 const mapStateToProps = ({login}:S2P) => {
      const {email,password} = login;

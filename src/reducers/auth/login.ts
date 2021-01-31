@@ -1,13 +1,13 @@
 import { FORM_HANDLER } from "../../actions/auth/login";
 import { Action } from "../../Interface/Action";
-import { ILogin } from "../../Interface/CredentialForm";
+import { ILoginForm } from "../../Interface/CredentialForm";
 
-const initialState:ILogin = {
+const initialState:ILoginForm = {
     email: "",
     password: ""
 }
 
-const reducer = (state:ILogin = initialState,action:Action) => {
+const reducer = (state:ILoginForm = initialState,action:Action) => {
     switch(action.type){
 
         case FORM_HANDLER:

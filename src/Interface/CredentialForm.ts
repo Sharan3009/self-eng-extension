@@ -1,15 +1,20 @@
-export interface ISignUp{
-    name:string,
-    email:string,
-    password:string,
-    confirmPassword:string
+export interface ISignUpForm{
+    name:ISignUpObj,
+    email:ISignUpObj,
+    password:ISignUpObj,
+    confirmPassword:ISignUpObj,
 }
 
-export interface ILogin{
+interface ISignUpObj {
+    error:boolean,
+    value:string
+}
+
+export interface ILoginForm{
     email:string,
     password:string
 }
 
-export interface IForgotPassword{
+export interface IForgotPasswordForm{
     email:string
 }
