@@ -1,5 +1,5 @@
 import { Component, FormEvent } from "react";
-import {RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
@@ -17,7 +17,7 @@ class SignUp extends Component<RouteComponentProps&ISignUp&Store> {
     private setForm = (e:FormEvent<HTMLInputElement|HTMLTextAreaElement>) => {
         const {name,value} = (e.target as HTMLInputElement);
         this.props.dispatch(setFormData(name,value))
-      }
+    }
 
     render(){
 
