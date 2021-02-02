@@ -4,19 +4,96 @@ import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
 import { connect } from "react-redux";
-import { ISignUpForm } from "../../Interface/CredentialForm";
-import {setFormData} from "../../actions/auth/signup";
+import { ISignUpForm, ISignUpObj,  } from "../../Interface/CredentialForm";
+import { setFormData, setFieldError, setFieldTouch } from "../../actions/auth/signup";
 
+type ErrAndMsg = {
+    error:boolean,
+    message:string
+}
 class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
 
+    private emailRegex:RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     private signup = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        alert(1)
+        let bool:boolean = ["name","email","password","confirmPassword"].some((txt)=>{
+            const {error,message} = this.getErrorAndMsg(txt);
+            this.setFieldError(txt,error,message);
+            return error;
+        });
+        if(!bool){
+            alert(1);
+        }
     }
 
     private setForm = (e:FormEvent<HTMLInputElement|HTMLTextAreaElement>) => {
         const {name,value} = (e.target as HTMLInputElement);
-        this.props.dispatch(setFormData(name,value,true))
+        this.props.dispatch(setFormData(name,value));
+        const fieldObj:ISignUpObj = (this.props as any)[name];
+        if(fieldObj.touched && fieldObj.error){
+            const errorMsg:ErrAndMsg = this.getErrorAndMsg(name);
+            this.setFieldError(name,errorMsg.error,errorMsg.message);
+        }
+        
+    }
+
+    private getErrorAndMsg = (name:string):ErrAndMsg => {
+        const signUpObj:ISignUpObj = (this.props as any)[name];
+        const value = signUpObj.value;
+        let error:boolean = false;
+        let message:string = "";
+        switch(name){
+            case "name": {
+                if(!value){
+                    error = true;
+                    message = "Name is required";
+                } else if(value.length>20){
+                    error = true;
+                    message = "Name cannot be more than 20 characters"
+                }
+                break;
+            }
+            case "email": {
+                if(!value){
+                    error = true;
+                    message = "Email is required";
+                } else if(!this.emailRegex.test(value)){
+                    error = true;
+                    message = "Email is not valid";
+                }
+                break;
+            }
+            case "password": {
+                if(!value){
+                    error = true;
+                    message = "Password is required";
+                } else if(value.length<8){
+                    error = true;
+                    message = "Password must be ateast 8 characters";
+                }
+                break;
+            }
+            case "confirmPassword": {
+                if(!value) {
+                    error = true;
+                    message = "Password confirmation is required";
+                } else if(this.props.password.value != value){
+                    error = true;
+                    message = "Passwords do not match"
+                }
+            }
+        }
+
+        return {error,message};
+    }
+
+    private setFieldError = (field:string, error:boolean,message:string) => {
+        this.props.dispatch(setFieldError(field,error,message))
+    }
+
+    private setFieldTouch = (e:FormEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+        const {name} = e.target as HTMLInputElement
+        this.props.dispatch(setFieldTouch(name));
     }
 
     render(){
@@ -33,6 +110,8 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                         size="small"
                         value={name.value}
                         onChange={this.setForm}
+                        onFocus={this.setFieldTouch}
+                        helperText={name.message}
                     />
                     <TextField
                         error={email.error}
@@ -44,6 +123,8 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                         size="small"
                         value={email.value}
                         onChange={this.setForm}
+                        onFocus={this.setFieldTouch}
+                        helperText={email.message}
                         />
                     <TextField
                         label="Password"
@@ -54,6 +135,8 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                         size="small"
                         value={password.value}
                         onChange={this.setForm}
+                        onFocus={this.setFieldTouch}
+                        helperText={password.message}
                         />
                     <TextField
                         error={confirmPassword.error}
@@ -65,6 +148,8 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                         size="small"
                         value={confirmPassword.value}
                         onChange={this.setForm}
+                        onFocus={this.setFieldTouch}
+                        helperText={confirmPassword.message}
                         />
                     <SignupButton text="Sign up"/>
                 </form>

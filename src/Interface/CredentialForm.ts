@@ -5,9 +5,11 @@ export interface ISignUpForm{
     confirmPassword:ISignUpObj,
 }
 
-interface ISignUpObj {
+export interface ISignUpObj {
     error:boolean,
-    value:string
+    value:string,
+    message:string,
+    touched: boolean
 }
 
 export interface ILoginForm{
