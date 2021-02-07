@@ -81,6 +81,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     error = true;
                     message = "Passwords do not match"
                 }
+                break;
             }
         }
 
