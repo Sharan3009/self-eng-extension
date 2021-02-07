@@ -17,7 +17,9 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
     private signup = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let bool:boolean = ["name","email","password","confirmPassword"].some((txt)=>{
-            const {error,message} = this.getErrorAndMsg(txt);
+            const signUpObj:ISignUpObj = (this.props as any)[txt];
+            const value:string = signUpObj.value;
+            const {error,message} = this.getErrorAndMsg(txt,value);
             this.setFieldError(txt,error,message);
             return error;
         });
@@ -31,15 +33,13 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
         this.props.dispatch(setFormData(name,value));
         const fieldObj:ISignUpObj = (this.props as any)[name];
         if(fieldObj.touched && fieldObj.error){
-            const errorMsg:ErrAndMsg = this.getErrorAndMsg(name);
+            const errorMsg:ErrAndMsg = this.getErrorAndMsg(name,value);
             this.setFieldError(name,errorMsg.error,errorMsg.message);
         }
         
     }
 
-    private getErrorAndMsg = (name:string):ErrAndMsg => {
-        const signUpObj:ISignUpObj = (this.props as any)[name];
-        const value = signUpObj.value;
+    private getErrorAndMsg = (name:string,value:string):ErrAndMsg => {
         let error:boolean = false;
         let message:string = "";
         switch(name){
@@ -100,7 +100,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
     render(){
 
         const {name,email,password,confirmPassword} = this.props;
-        return <form className="absolute-center" onSubmit={this.signup}>
+        return <form className="absolute-center" onSubmit={this.signup} noValidate>
                     <TextField
                         error={name.error}
                         label="Name"
@@ -128,6 +128,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                         helperText={email.message}
                         />
                     <TextField
+                        error={password.error}
                         label="Password"
                         name="password"
                         variant="outlined"
