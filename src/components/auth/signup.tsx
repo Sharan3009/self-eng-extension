@@ -100,61 +100,63 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
     render(){
 
         const {name,email,password,confirmPassword} = this.props;
-        return <form className="absolute-center" onSubmit={this.signup} noValidate>
-                    <TextField
-                        error={name.error}
-                        label="Name"
-                        name="name"
-                        variant="outlined"
-                        type="text"
-                        className="pb-3 wpx-240"
-                        size="small"
-                        value={name.value}
-                        onChange={this.setForm}
-                        onFocus={this.setFieldTouch}
-                        helperText={name.message}
+        return <div className="d-flex align-items-center h-100">
+            <form className="mx-auto wpx-240" onSubmit={this.signup} noValidate>
+                <TextField
+                    error={name.error}
+                    label="Name"
+                    name="name"
+                    variant="outlined"
+                    type="text"
+                    className="pb-3 wpx-240"
+                    size="small"
+                    value={name.value}
+                    onChange={this.setForm}
+                    onFocus={this.setFieldTouch}
+                    helperText={name.message}
+                />
+                <TextField
+                    error={email.error}
+                    label="Email"
+                    name="email"
+                    variant="outlined"
+                    type="email"
+                    className="pb-3 wpx-240"
+                    size="small"
+                    value={email.value}
+                    onChange={this.setForm}
+                    onFocus={this.setFieldTouch}
+                    helperText={email.message}
                     />
-                    <TextField
-                        error={email.error}
-                        label="Email"
-                        name="email"
-                        variant="outlined"
-                        type="email"
-                        className="pb-3 wpx-240"
-                        size="small"
-                        value={email.value}
-                        onChange={this.setForm}
-                        onFocus={this.setFieldTouch}
-                        helperText={email.message}
-                        />
-                    <TextField
-                        error={password.error}
-                        label="Password"
-                        name="password"
-                        variant="outlined"
-                        type="password"
-                        className="pb-3 wpx-240"
-                        size="small"
-                        value={password.value}
-                        onChange={this.setForm}
-                        onFocus={this.setFieldTouch}
-                        helperText={password.message}
-                        />
-                    <TextField
-                        error={confirmPassword.error}
-                        label="Confirm Password"
-                        name="confirmPassword"
-                        variant="outlined"
-                        type="password"
-                        className="pb-3 wpx-240"
-                        size="small"
-                        value={confirmPassword.value}
-                        onChange={this.setForm}
-                        onFocus={this.setFieldTouch}
-                        helperText={confirmPassword.message}
-                        />
-                    <SignupButton text="Sign up"/>
-                </form>
+                <TextField
+                    error={password.error}
+                    label="Password"
+                    name="password"
+                    variant="outlined"
+                    type="password"
+                    className="pb-3 wpx-240"
+                    size="small"
+                    value={password.value}
+                    onChange={this.setForm}
+                    onFocus={this.setFieldTouch}
+                    helperText={password.message}
+                    />
+                <TextField
+                    error={confirmPassword.error}
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    variant="outlined"
+                    type="password"
+                    className="pb-3 wpx-240"
+                    size="small"
+                    value={confirmPassword.value}
+                    onChange={this.setForm}
+                    onFocus={this.setFieldTouch}
+                    helperText={confirmPassword.message}
+                    />
+                <SignupButton text="Sign up"/>
+            </form>
+        </div>
     }
 }
 
