@@ -49,7 +49,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     message = "Name is required";
                 } else if(value.length>20){
                     error = true;
-                    message = "Name cannot be more than 20 characters"
+                    message = "Name cannot be more than 20 letters"
                 }
                 break;
             }
@@ -69,7 +69,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     message = "Password is required";
                 } else if(value.length<8){
                     error = true;
-                    message = "Password must be ateast 8 characters";
+                    message = "Password must be ateast 8 letters";
                 }
                 break;
             }
