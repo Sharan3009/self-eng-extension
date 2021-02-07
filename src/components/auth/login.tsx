@@ -1,13 +1,13 @@
 import { Component, FormEvent } from "react";
-import { RouteComponentProps } from "react-router-dom";
 import LoginButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { ILoginForm } from "../../Interface/CredentialForm";
-import { compose, Store } from "redux";
+import { compose } from "redux";
 import { setFormData } from "../../actions/auth/login";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-class Login extends Component<RouteComponentProps&ILoginForm&Store> {
+class Login extends Component<any> {
 
     private login = (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
@@ -21,8 +21,8 @@ class Login extends Component<RouteComponentProps&ILoginForm&Store> {
 
     render(){
 
-        const {email,password} = this.props;
-        return <form className="absolute-center" onSubmit={this.login}>
+        const {email,password, history} = this.props;
+        return <form onSubmit={this.login} noValidate>
                     <TextField
                         name="email"
                         label="Email"
@@ -44,9 +44,8 @@ class Login extends Component<RouteComponentProps&ILoginForm&Store> {
                         onChange={this.setForm}
                         />
                     <LoginButton text="Login"/>
-                    <div className="text-center text-muted py-2 small">
-                        <span>Forgot password? </span>
-                        <span className="font-weight-bolder clickable">Click here</span>
+                    <div className="text-center text-muted pt-2 small">
+                        <Link to="forgotPassword">Forgotten password? </Link>
                     </div>
                 </form>
     }
@@ -63,5 +62,5 @@ const mapStateToProps = ({login}:S2P) => {
   }
 
 export default compose(
-    connect(mapStateToProps)
+    connect<ILoginForm,{},{},S2P>(mapStateToProps)
 )(Login);
