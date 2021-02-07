@@ -4,8 +4,8 @@ import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
 import { connect } from "react-redux";
-import { ISignUpForm, ISignUpObj,  } from "../../Interface/CredentialForm";
-import { setFormData, setFieldError, setFieldTouch } from "../../actions/auth/signup";
+import { ISignUpForm, ISignUpObj } from "../../Interface/CredentialForm";
+import { setFormData, setFieldError, setFieldTouch, signUpApi } from "../../actions/auth/signup";
 import Skip from "../shared/skip";
 
 type ErrAndMsg = {
@@ -23,7 +23,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
 
     private emailRegex:RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    private signup = (e:FormEvent<HTMLFormElement>) => {
+    private validateAndSignUp = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let refFound:boolean = false;
         let errCount:number = ["name","email","password","confirmPassword"].filter((txt)=>{
@@ -38,8 +38,18 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
             return error;
         }).length;
         if(errCount===0){
-            alert(1);
+            this.signup();
         }
+    }
+
+    private signup = () => {
+        const { name, email, password, confirmPassword } = this.props;
+        signUpApi(name.value,email.value,password.value,confirmPassword.value)
+        .then((response)=>{
+            console.log(response.data);
+        }).catch((error)=>{
+            console.error(error);
+        })
     }
 
     private setForm = (e:FormEvent<HTMLInputElement|HTMLTextAreaElement>) => {
@@ -115,7 +125,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
 
         const {name,email,password,confirmPassword} = this.props;
         return <div className="d-flex align-items-center h-100">
-            <form className="mx-auto wpx-240 mt-5" onSubmit={this.signup} noValidate>
+            <form className="mx-auto wpx-240 mt-5" onSubmit={this.validateAndSignUp} noValidate>
                 <TextField
                     error={name.error}
                     label="Name"

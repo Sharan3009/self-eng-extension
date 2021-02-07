@@ -10,3 +10,13 @@ export const setFormData = (name:string,value:string) => {
         }
     }
 }
+
+export function loginApi(email:string,password:string){
+    return axios.post(
+        `${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_API_VERSION}user/login`,
+        {
+            email,
+            password
+        }
+    )
+}

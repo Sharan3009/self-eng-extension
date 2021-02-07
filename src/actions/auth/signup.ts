@@ -31,3 +31,15 @@ export const setFieldTouch = (name:string):Action => {
         }
     }
 }
+
+export function signUpApi(name:string,email:string,password:string,confirmPassword:string){
+    return axios.post(
+        `${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_API_VERSION}user/signup`,
+        {
+            name,
+            email,
+            password,
+            confirmPassword
+        }
+    )
+}

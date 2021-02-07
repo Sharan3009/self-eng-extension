@@ -3,7 +3,7 @@ import LoginButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { ILoginForm } from "../../Interface/CredentialForm";
 import { compose } from "redux";
-import { setFormData } from "../../actions/auth/login";
+import { setFormData, loginApi } from "../../actions/auth/login";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,14 @@ class Login extends Component<any> {
 
     private login = (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        alert(1)
+        const {email,password} = this.props;
+        loginApi(email,password)
+        .then((response)=>{
+            console.log(response.data);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
     }
 
     private setForm = (e:FormEvent<HTMLInputElement|HTMLTextAreaElement>) => {
