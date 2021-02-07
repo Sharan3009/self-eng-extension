@@ -1,4 +1,4 @@
-import React, { Component, FormEvent } from "react";
+import React, { Component, FormEvent, createRef } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
@@ -14,17 +14,30 @@ type ErrAndMsg = {
 }
 class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
 
+    private ref:any = {
+        name:createRef(),
+        email:createRef(),
+        password:createRef(),
+        confirmPassword:createRef()
+    }
+
     private emailRegex:RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     private signup = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        let bool:boolean = ["name","email","password","confirmPassword"].some((txt)=>{
+        let refFound:boolean = false;
+        let errCount:number = ["name","email","password","confirmPassword"].filter((txt)=>{
             const signUpObj:ISignUpObj = (this.props as any)[txt];
             const value:string = signUpObj.value;
             const {error,message} = this.getErrorAndMsg(txt,value);
+            if(!refFound && error){
+                refFound = true;
+                this.ref[txt].current.focus()
+            }
             this.setFieldError(txt,error,message);
             return error;
-        });
-        if(!bool){
+        }).length;
+        if(errCount===0){
             alert(1);
         }
     }
@@ -102,7 +115,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
 
         const {name,email,password,confirmPassword} = this.props;
         return <div className="d-flex align-items-center h-100">
-            <form className="mx-auto wpx-240" onSubmit={this.signup} noValidate>
+            <form className="mx-auto wpx-240 mt-5" onSubmit={this.signup} noValidate>
                 <TextField
                     error={name.error}
                     label="Name"
@@ -116,6 +129,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onFocus={this.setFieldTouch}
                     helperText={name.message}
                     autoFocus
+                    inputRef={this.ref.name}
                 />
                 <TextField
                     error={email.error}
@@ -129,7 +143,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onChange={this.setForm}
                     onFocus={this.setFieldTouch}
                     helperText={email.message}
-                    />
+                    inputRef={this.ref.email}                    />
                 <TextField
                     error={password.error}
                     label="Password"
@@ -142,7 +156,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onChange={this.setForm}
                     onFocus={this.setFieldTouch}
                     helperText={password.message}
-                    />
+                    inputRef={this.ref.password}                    />
                 <TextField
                     error={confirmPassword.error}
                     label="Confirm Password"
@@ -155,7 +169,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onChange={this.setForm}
                     onFocus={this.setFieldTouch}
                     helperText={confirmPassword.message}
-                    />
+                    inputRef={this.ref.confirmPassword}                    />
                 <SignupButton text="Sign up"/>
                 <div className="d-flex align-items-center py-3">
                     <div className="border-bottom w-100 h-50"></div>

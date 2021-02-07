@@ -19,7 +19,7 @@ class Entry extends Component<RouteComponentProps> {
 
     render(){
         return <div className="d-flex align-items-center h-100">
-                <div className="mx-auto wpx-240">
+                <div className="mx-auto wpx-240 mt-5">
                     <GoogleButton onClick={this.loginWithGoogle}/>
                     <div className="d-flex align-items-center text-muted py-2">
                         <div className="col border-bottom h-50"></div>
@@ -32,8 +32,8 @@ class Entry extends Component<RouteComponentProps> {
                     </div>
                     <div className="text-center text-muted font-weight-bold">
                         New user? <Link to="signup">Create account</Link>
+                        <Skip />
                     </div>
-                    <Skip />
                 </div>
             </div>
     }
