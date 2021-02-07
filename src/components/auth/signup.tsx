@@ -1,11 +1,12 @@
-import { Component, FormEvent } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import React, { Component, FormEvent } from "react";
+import { Link, RouteComponentProps } from "react-router-dom";
 import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
 import { connect } from "react-redux";
 import { ISignUpForm, ISignUpObj,  } from "../../Interface/CredentialForm";
 import { setFormData, setFieldError, setFieldTouch } from "../../actions/auth/signup";
+import Skip from "../shared/skip";
 
 type ErrAndMsg = {
     error:boolean,
@@ -114,6 +115,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onChange={this.setForm}
                     onFocus={this.setFieldTouch}
                     helperText={name.message}
+                    autoFocus
                 />
                 <TextField
                     error={email.error}
@@ -155,6 +157,13 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     helperText={confirmPassword.message}
                     />
                 <SignupButton text="Sign up"/>
+                <div className="d-flex align-items-center py-3">
+                    <div className="border-bottom w-100 h-50"></div>
+                </div>
+                <div className="text-center text-muted font-weight-bold">
+                    Already a user? <Link to="entry">Login now</Link>
+                </div>
+                <Skip />
             </form>
         </div>
     }
