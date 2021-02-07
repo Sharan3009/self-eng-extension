@@ -25,7 +25,7 @@ class Entry extends Component<RouteComponentProps> {
         return <div className="d-flex align-items-center h-100">
                 <div className="mx-auto wpx-240">
                     <GoogleButton onClick={this.loginWithGoogle}/>
-                    <div className="d-flex align-items-center text-muted py-2">
+                    <div className="d-flex align-items-center text-muted py-3">
                         <div className="col border-bottom h-50"></div>
                         <div className="px-2">or</div>
                         <div className="col border-bottom h-50"></div>

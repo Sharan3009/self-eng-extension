@@ -19,9 +19,17 @@ class Login extends Component<any> {
         this.props.dispatch(setFormData(name,value))
     }
 
+    private disabled = ():boolean => {
+        const {email,password} = this.props;
+        if(!email || !password){
+            return true;
+        }
+        return false;
+    }
+
     render(){
 
-        const {email,password, history} = this.props;
+        const {email,password} = this.props;
         return <form onSubmit={this.login} noValidate>
                     <TextField
                         name="email"
@@ -43,7 +51,7 @@ class Login extends Component<any> {
                         value={password}
                         onChange={this.setForm}
                         />
-                    <LoginButton text="Login"/>
+                    <LoginButton text="Login" disabled={this.disabled()}/>
                     <div className="text-center text-muted pt-2 small">
                         <Link to="forgotPassword">Forgotten password? </Link>
                     </div>
