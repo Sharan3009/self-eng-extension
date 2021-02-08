@@ -6,6 +6,8 @@ import { compose } from "redux";
 import { setFormData, loginApi } from "../../actions/auth/login";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import storage from "../../Class/Storage";
+import { AxiosResponse } from "axios";
 
 class Login extends Component<any> {
 
@@ -13,8 +15,13 @@ class Login extends Component<any> {
         e.preventDefault();
         const {email,password} = this.props;
         loginApi(email,password)
-        .then((response)=>{
-            console.log(response.data);
+        .then((res:AxiosResponse<any>)=>{
+            if(res.status===200){
+                const payload:any = res.data;
+                if(payload.status==="success"){
+                    storage.set("authToken",payload.data)
+                }
+            }
         })
         .catch((error)=>{
             console.log(error);

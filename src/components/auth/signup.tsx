@@ -4,15 +4,16 @@ import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
 import { connect } from "react-redux";
-import { ISignUpForm, ISignUpObj } from "../../Interface/CredentialForm";
-import { setFormData, setFieldError, setFieldTouch, signUpApi } from "../../actions/auth/signup";
+import { ISignUpProps, ISignUpObj } from "../../Interface/CredentialForm";
+import { setFormData, setFieldError, setFieldTouch, signUpApi, showLoader } from "../../actions/auth/signup";
 import Skip from "../shared/skip";
+import Loader from "../shared/loader/loader";
 
 type ErrAndMsg = {
     error:boolean,
     message:string
 }
-class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
+class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
 
     private ref:any = {
         name:createRef(),
@@ -43,12 +44,13 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
     }
 
     private signup = () => {
+        this.props.dispatch(showLoader(true));
         const { name, email, password, confirmPassword } = this.props;
         signUpApi(name.value,email.value,password.value,confirmPassword.value)
         .then((response)=>{
-            console.log(response.data);
+            this.props.dispatch(showLoader(false));
         }).catch((error)=>{
-            console.error(error);
+            this.props.dispatch(showLoader(false));
         })
     }
 
@@ -122,9 +124,9 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
     }
 
     render(){
-
-        const {name,email,password,confirmPassword} = this.props;
+        const {name,email,password,confirmPassword,loader} = this.props;
         return <div className="d-flex align-items-center h-100">
+            <Loader isLoader={loader}/>
             <form className="mx-auto wpx-240 mt-5" onSubmit={this.validateAndSignUp} noValidate>
                 <TextField
                     error={name.error}
@@ -153,7 +155,8 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onChange={this.setForm}
                     onFocus={this.setFieldTouch}
                     helperText={email.message}
-                    inputRef={this.ref.email}                    />
+                    inputRef={this.ref.email}
+                />
                 <TextField
                     error={password.error}
                     label="Password"
@@ -166,7 +169,8 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onChange={this.setForm}
                     onFocus={this.setFieldTouch}
                     helperText={password.message}
-                    inputRef={this.ref.password}                    />
+                    inputRef={this.ref.password}
+                    />
                 <TextField
                     error={confirmPassword.error}
                     label="Confirm Password"
@@ -179,7 +183,8 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
                     onChange={this.setForm}
                     onFocus={this.setFieldTouch}
                     helperText={confirmPassword.message}
-                    inputRef={this.ref.confirmPassword}                    />
+                    inputRef={this.ref.confirmPassword}
+                    />
                 <SignupButton text="Sign up"/>
                 <div className="d-flex align-items-center py-3">
                     <div className="border-bottom w-100 h-50"></div>
@@ -194,12 +199,12 @@ class SignUp extends Component<RouteComponentProps&ISignUpForm&Store> {
 }
 
 type S2P = {
-    signup:ISignUpForm
+    signup:ISignUpProps
 }
 const mapStateToProps = ({signup}:S2P) => {
-     const {name,email,password,confirmPassword} = signup;
+     const {name,email,password,confirmPassword,loader} = signup;
      return {
-         name,email,password,confirmPassword
+         name,email,password,confirmPassword, loader
      };
   }
 

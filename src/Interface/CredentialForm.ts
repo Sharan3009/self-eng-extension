@@ -1,8 +1,12 @@
-export interface ISignUpForm{
+interface ISignUpForm{
     name:ISignUpObj,
     email:ISignUpObj,
     password:ISignUpObj,
     confirmPassword:ISignUpObj,
+}
+
+export interface ISignUpProps extends ISignUpForm{
+    loader:boolean
 }
 
 export interface ISignUpObj {

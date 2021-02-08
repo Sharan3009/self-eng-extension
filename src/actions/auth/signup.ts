@@ -4,6 +4,7 @@ import { Action } from "../../Interface/Action";
 export const FORM_HANDLER:string = "SIGNUP_FORM_HANDLER";
 export const ERROR_HANDLER:string = "SIGNUP_ERROR_HANDLER";
 export const TOUCH_HANDLER:string = "SIGNUP_TOUCH_HANDLER";
+export const LOADER:string = "SIGNUP_LOADER";
 
 export const setFormData = (name:string,value:string):Action => {
     return {
@@ -29,6 +30,13 @@ export const setFieldTouch = (name:string):Action => {
         payload: {
             name
         }
+    }
+}
+
+export const showLoader = (show:boolean):Action => {
+    return {
+        type: LOADER,
+        payload: show
     }
 }
 

@@ -1,8 +1,9 @@
-import { ERROR_HANDLER, FORM_HANDLER, TOUCH_HANDLER } from "../../actions/auth/signup";
+import { ERROR_HANDLER, FORM_HANDLER,
+     TOUCH_HANDLER, LOADER } from "../../actions/auth/signup";
 import { Action } from "../../Interface/Action";
-import { ISignUpForm, ISignUpObj } from "../../Interface/CredentialForm";
+import { ISignUpProps, ISignUpObj } from "../../Interface/CredentialForm";
 
-const initialState:ISignUpForm = {
+const initialState:ISignUpProps = {
     email: {
         error:false,
         value:"",
@@ -27,9 +28,10 @@ const initialState:ISignUpForm = {
         message:"",
         touched:false
     },
+    loader:false
 }
 
-const reducer = (state:ISignUpForm = initialState,action:Action):ISignUpForm => {
+const reducer = (state:ISignUpProps = initialState,action:Action):ISignUpProps => {
     switch(action.type){
 
         case FORM_HANDLER: {
@@ -67,6 +69,14 @@ const reducer = (state:ISignUpForm = initialState,action:Action):ISignUpForm => 
                     ...signUpObj,
                     touched
                 }
+            }
+        }
+
+        case LOADER: {
+            const loader:boolean = action.payload;
+            return {
+                ...state,
+                loader
             }
         }
 
