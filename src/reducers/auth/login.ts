@@ -1,13 +1,14 @@
-import { FORM_HANDLER } from "../../actions/auth/login";
+import { FORM_HANDLER, LOADER } from "../../actions/auth/login";
 import { Action } from "../../Interface/Action";
-import { ILoginForm } from "../../Interface/CredentialForm";
+import { ILoginProps } from "../../Interface/CredentialForm";
 
-const initialState:ILoginForm = {
+const initialState:ILoginProps = {
     email: "",
-    password: ""
+    password: "",
+    loader:false
 }
 
-const reducer = (state:ILoginForm = initialState,action:Action) => {
+const reducer = (state:ILoginProps = initialState,action:Action) => {
     switch(action.type){
 
         case FORM_HANDLER:
@@ -15,7 +16,14 @@ const reducer = (state:ILoginForm = initialState,action:Action) => {
                 ...state,
                 [action.payload.name]:action.payload.value
             };
-
+        
+        case LOADER:{
+            const loader = action.payload;
+            return {
+                ...state,
+                loader
+            }
+        }
         default:
             return state;
     }

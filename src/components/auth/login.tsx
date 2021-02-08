@@ -1,22 +1,25 @@
 import { Component, FormEvent } from "react";
 import LoginButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
-import { ILoginForm } from "../../Interface/CredentialForm";
+import { ILoginProps } from "../../Interface/CredentialForm";
 import { compose } from "redux";
-import { setFormData, loginApi } from "../../actions/auth/login";
+import { setFormData, loginApi, showLoader } from "../../actions/auth/login";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import storage from "../../Class/Storage";
 import { AxiosResponse } from "axios";
+import Loader from "../shared/loader/loader";
 
 class Login extends Component<any> {
 
     private login = (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
+        this.props.dispatch(showLoader(true));
         const {email,password} = this.props;
         loginApi(email,password)
         .then((res:AxiosResponse<any>)=>{
             if(res.status===200){
+                this.props.dispatch(showLoader(false));
                 const payload:any = res.data;
                 if(payload.status==="success"){
                     storage.set("authToken",payload.data)
@@ -24,6 +27,7 @@ class Login extends Component<any> {
             }
         })
         .catch((error)=>{
+            this.props.dispatch(showLoader(false));
             console.log(error);
         })
     }
@@ -43,8 +47,9 @@ class Login extends Component<any> {
 
     render(){
 
-        const {email,password} = this.props;
+        const {email,password,loader} = this.props;
         return <form onSubmit={this.login} noValidate>
+                    <Loader isLoader={loader} />
                     <TextField
                         name="email"
                         label="Email"
@@ -74,15 +79,15 @@ class Login extends Component<any> {
 }
 
 type S2P = {
-    login:ILoginForm
+    login:ILoginProps
 }
 const mapStateToProps = ({login}:S2P) => {
-     const {email,password} = login;
+     const {email,password,loader} = login;
      return {
-         email,password
+         email,password,loader
      };
   }
 
 export default compose(
-    connect<ILoginForm,{},{},S2P>(mapStateToProps)
+    connect<ILoginProps,{},{},S2P>(mapStateToProps)
 )(Login);

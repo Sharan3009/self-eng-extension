@@ -16,9 +16,13 @@ export interface ISignUpObj {
     touched: boolean
 }
 
-export interface ILoginForm{
+interface ILoginForm{
     email:string,
     password:string
+}
+
+export interface ILoginProps extends ILoginForm{
+    loader:boolean
 }
 
 export interface IForgotPasswordForm{

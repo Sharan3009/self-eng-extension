@@ -40,7 +40,7 @@ export const showLoader = (show:boolean):Action => {
     }
 }
 
-export function signUpApi(name:string,email:string,password:string,confirmPassword:string){
+export const signUpApi = (name:string,email:string,password:string,confirmPassword:string):Promise<any> => {
     return axios.post(
         `${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_API_VERSION}user/signup`,
         {
