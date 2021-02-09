@@ -22,7 +22,8 @@ interface ILoginForm{
 }
 
 export interface ILoginProps extends ILoginForm{
-    loader:boolean
+    loader:boolean,
+    loginError:string
 }
 
 export interface IForgotPasswordForm{
