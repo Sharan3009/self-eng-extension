@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../utils/axios";
 import { Action } from "../../Interface/Action";
 
 export const FORM_HANDLER:string = "LOGIN_FORM_HANDLER";

@@ -7,7 +7,6 @@ import { setFormData, loginApi, showLoader } from "../../actions/auth/login";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import storage from "../../Class/Storage";
-import { AxiosResponse } from "axios";
 import Loader from "../shared/loader/loader";
 
 class Login extends Component<any> {
@@ -17,14 +16,9 @@ class Login extends Component<any> {
         this.props.dispatch(showLoader(true));
         const {email,password} = this.props;
         loginApi(email,password)
-        .then((res:AxiosResponse<any>)=>{
-            if(res.status===200){
-                this.props.dispatch(showLoader(false));
-                const payload:any = res.data;
-                if(payload.status==="success"){
-                    storage.set("authToken",payload.data)
-                }
-            }
+        .then((token:string)=>{
+            this.props.dispatch(showLoader(false));
+            storage.set("authToken",token)
         })
         .catch((error)=>{
             this.props.dispatch(showLoader(false));

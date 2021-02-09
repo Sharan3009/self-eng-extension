@@ -47,9 +47,9 @@ class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
         this.props.dispatch(showLoader(true));
         const { name, email, password, confirmPassword } = this.props;
         signUpApi(name.value,email.value,password.value,confirmPassword.value)
-        .then((response)=>{
+        .then((msg:string)=>{
             this.props.dispatch(showLoader(false));
-        }).catch((error)=>{
+        }).catch((err:string)=>{
             this.props.dispatch(showLoader(false));
         })
     }
