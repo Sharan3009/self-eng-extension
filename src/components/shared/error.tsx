@@ -1,8 +1,8 @@
 import React from "react";
 
-const Error = ({msg}:{msg:string}) => {
+const Error = ({msg,error=true}:{msg:string,error?:boolean}) => {
     return (msg)?
-        <div className="text-danger text-center w-100 small">
+        <div className={`${(error)?"text-danger":"text-success"} text-center w-100 small`}>
             {msg}
         </div>
         :null

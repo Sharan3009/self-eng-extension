@@ -7,7 +7,8 @@ interface ISignUpForm{
 
 export interface ISignUpProps extends ISignUpForm{
     loader:boolean,
-    signupError:string
+    serverMsg:string,
+    serverErr:boolean
 }
 
 export interface ISignUpObj {
@@ -24,7 +25,8 @@ interface ILoginForm{
 
 export interface ILoginProps extends ILoginForm{
     loader:boolean,
-    loginError:string
+    serverMsg:string,
+    serverErr:boolean
 }
 
 export interface IForgotPasswordForm{

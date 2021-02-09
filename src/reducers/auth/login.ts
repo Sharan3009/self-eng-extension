@@ -1,4 +1,4 @@
-import { FORM_HANDLER, LOADER, SERVER_ERR } from "../../actions/auth/login";
+import { FORM_HANDLER, LOADER, SERVER_MSG } from "../../actions/auth/login";
 import { Action } from "../../Interface/Action";
 import { ILoginProps } from "../../Interface/CredentialForm";
 
@@ -6,7 +6,8 @@ const initialState:ILoginProps = {
     email: "",
     password: "",
     loader:false,
-    loginError:""
+    serverErr:false,
+    serverMsg:""
 }
 
 const reducer = (state:ILoginProps = initialState,action:Action) => {
@@ -25,11 +26,12 @@ const reducer = (state:ILoginProps = initialState,action:Action) => {
                 loader
             }
         }
-        case SERVER_ERR:{
-            const loginError:string = action.payload;
+        case SERVER_MSG:{
+            const {serverMsg,serverErr} = action.payload;
             return {
                 ...state,
-                loginError
+                serverErr,
+                serverMsg
             }
         }
         default:

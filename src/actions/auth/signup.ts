@@ -5,7 +5,7 @@ export const FORM_HANDLER:string = "SIGNUP_FORM_HANDLER";
 export const ERROR_HANDLER:string = "SIGNUP_ERROR_HANDLER";
 export const TOUCH_HANDLER:string = "SIGNUP_TOUCH_HANDLER";
 export const LOADER:string = "SIGNUP_LOADER";
-export const SERVER_ERR:string = "SIGNUP_ERROR";
+export const SERVER_MSG:string = "SIGNUP_SERVER_MSG";
 
 export const setFormData = (name:string,value:string):Action => {
     return {
@@ -53,9 +53,12 @@ export const signUpApi = (name:string,email:string,password:string,confirmPasswo
     )
 }
 
-export const signupError = (msg:string):Action => {
+export const serverMsg = (serverMsg:string,serverErr:boolean=true):Action => {
     return {
-        type: SERVER_ERR,
-        payload:msg
+        type: SERVER_MSG,
+        payload:{
+            serverErr,
+            serverMsg
+        }
     }
 }

@@ -5,7 +5,7 @@ import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
 import { connect } from "react-redux";
 import { ISignUpProps, ISignUpObj } from "../../Interface/CredentialForm";
-import { setFormData, setFieldError, setFieldTouch, signUpApi, showLoader, signupError } from "../../actions/auth/signup";
+import { setFormData, setFieldError, setFieldTouch, signUpApi, showLoader, serverMsg } from "../../actions/auth/signup";
 import Skip from "../shared/skip";
 import Loader from "../shared/loader/loader";
 import Error from "../shared/error";
@@ -45,15 +45,15 @@ class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
     }
 
     private signup = () => {
-        this.props.dispatch(signupError(""));
+        this.props.dispatch(serverMsg(""));
         this.props.dispatch(showLoader(true));
         const { name, email, password, confirmPassword } = this.props;
         signUpApi(name.value,email.value,password.value,confirmPassword.value)
         .then((msg:string)=>{
-            this.props.dispatch(signupError(""));
+            this.props.dispatch(serverMsg(msg,false));
             this.props.dispatch(showLoader(false));
         }).catch((err:string)=>{
-            this.props.dispatch(signupError(err));
+            this.props.dispatch(serverMsg(err));
             this.props.dispatch(showLoader(false));
         })
     }
@@ -128,7 +128,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
     }
 
     render(){
-        const {name,email,password,confirmPassword,loader,signupError} = this.props;
+        const {name,email,password,confirmPassword,loader,serverErr,serverMsg} = this.props;
         return <div className="d-flex align-items-center h-100">
             <Loader isLoader={loader}/>
             <form className="mx-auto wpx-240 mt-5" onSubmit={this.validateAndSignUp} noValidate>
@@ -190,7 +190,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
                     inputRef={this.ref.confirmPassword}
                     />
                 <SignupButton text="Sign up"/>
-                <Error msg={signupError} />
+                <Error msg={serverMsg} error={serverErr} />
                 <div className="d-flex align-items-center py-3">
                     <div className="border-bottom w-100 h-50"></div>
                 </div>
@@ -207,9 +207,9 @@ type S2P = {
     signup:ISignUpProps
 }
 const mapStateToProps = ({signup}:S2P) => {
-     const {name,email,password,confirmPassword,loader,signupError} = signup;
+     const {name,email,password,confirmPassword,loader,serverErr,serverMsg} = signup;
      return {
-         name,email,password,confirmPassword, loader, signupError
+         name,email,password,confirmPassword, loader, serverErr,serverMsg
      };
   }
 

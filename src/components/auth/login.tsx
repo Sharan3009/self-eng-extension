@@ -3,7 +3,7 @@ import LoginButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
 import { ILoginProps } from "../../Interface/CredentialForm";
 import { compose } from "redux";
-import { setFormData, loginApi, showLoader, loginError } from "../../actions/auth/login";
+import { setFormData, loginApi, showLoader, serverMsg } from "../../actions/auth/login";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import storage from "../../Class/Storage";
@@ -14,17 +14,17 @@ class Login extends Component<any> {
 
     private login = (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        this.props.dispatch(loginError(""));
+        this.props.dispatch(serverMsg(""));
         this.props.dispatch(showLoader(true));
         const {email,password} = this.props;
         loginApi(email,password)
         .then((token:string)=>{
-            this.props.dispatch(loginError(""));
+            this.props.dispatch(serverMsg(""));
             this.props.dispatch(showLoader(false));
             storage.set("authToken",token)
         })
         .catch((error)=>{
-            this.props.dispatch(loginError(error));
+            this.props.dispatch(serverMsg(error));
             this.props.dispatch(showLoader(false));
         })
     }
@@ -44,7 +44,7 @@ class Login extends Component<any> {
 
     render(){
 
-        const {email,password,loader,loginError} = this.props;
+        const {email,password,loader,serverErr,serverMsg} = this.props;
         return <form onSubmit={this.login} noValidate>
                     <Loader isLoader={loader} />
                     <TextField
@@ -68,7 +68,7 @@ class Login extends Component<any> {
                         onChange={this.setForm}
                         />
                     <LoginButton text="Login" disabled={this.disabled()}/>
-                    <Error msg={loginError}/>
+                    <Error msg={serverMsg}/>
                     <div className="text-center text-muted pt-2 small">
                         <Link to="forgotPassword">Forgotten password? </Link>
                     </div>
@@ -80,9 +80,9 @@ type S2P = {
     login:ILoginProps
 }
 const mapStateToProps = ({login}:S2P) => {
-     const {email,password,loader,loginError} = login;
+     const {email,password,loader,serverErr,serverMsg} = login;
      return {
-         email,password,loader,loginError
+         email,password,loader, serverErr, serverMsg
      };
   }
 
