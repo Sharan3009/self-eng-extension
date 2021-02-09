@@ -5,7 +5,7 @@ import { TextField } from "@material-ui/core";
 import { compose, Store } from "redux";
 import { connect } from "react-redux";
 import { ISignUpProps, ISignUpObj } from "../../Interface/CredentialForm";
-import { setFormData, setFieldError, setFieldTouch, signUpApi, showLoader } from "../../actions/auth/signup";
+import { setFormData, setFieldError, setFieldTouch, signUpApi, showLoader, signupError } from "../../actions/auth/signup";
 import Skip from "../shared/skip";
 import Loader from "../shared/loader/loader";
 import Error from "../shared/error";
@@ -45,12 +45,15 @@ class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
     }
 
     private signup = () => {
+        this.props.dispatch(signupError(""));
         this.props.dispatch(showLoader(true));
         const { name, email, password, confirmPassword } = this.props;
         signUpApi(name.value,email.value,password.value,confirmPassword.value)
         .then((msg:string)=>{
+            this.props.dispatch(signupError(""));
             this.props.dispatch(showLoader(false));
         }).catch((err:string)=>{
+            this.props.dispatch(signupError(err));
             this.props.dispatch(showLoader(false));
         })
     }
