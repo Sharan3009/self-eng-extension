@@ -6,7 +6,8 @@ interface ISignUpForm{
 }
 
 export interface ISignUpProps extends ISignUpForm{
-    loader:boolean
+    loader:boolean,
+    signupError:string
 }
 
 export interface ISignUpObj {

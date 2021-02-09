@@ -1,4 +1,4 @@
-import { FORM_HANDLER, LOADER, LOGIN_ERR } from "../../actions/auth/login";
+import { FORM_HANDLER, LOADER, SERVER_ERR } from "../../actions/auth/login";
 import { Action } from "../../Interface/Action";
 import { ILoginProps } from "../../Interface/CredentialForm";
 
@@ -25,7 +25,7 @@ const reducer = (state:ILoginProps = initialState,action:Action) => {
                 loader
             }
         }
-        case LOGIN_ERR:{
+        case SERVER_ERR:{
             const loginError:string = action.payload;
             return {
                 ...state,

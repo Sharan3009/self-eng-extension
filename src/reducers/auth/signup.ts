@@ -1,5 +1,5 @@
 import { ERROR_HANDLER, FORM_HANDLER,
-     TOUCH_HANDLER, LOADER } from "../../actions/auth/signup";
+     TOUCH_HANDLER, LOADER, SERVER_ERR } from "../../actions/auth/signup";
 import { Action } from "../../Interface/Action";
 import { ISignUpProps, ISignUpObj } from "../../Interface/CredentialForm";
 
@@ -28,7 +28,8 @@ const initialState:ISignUpProps = {
         message:"",
         touched:false
     },
-    loader:false
+    loader:false,
+    signupError:""
 }
 
 const reducer = (state:ISignUpProps = initialState,action:Action):ISignUpProps => {
@@ -77,6 +78,14 @@ const reducer = (state:ISignUpProps = initialState,action:Action):ISignUpProps =
             return {
                 ...state,
                 loader
+            }
+        }
+
+        case SERVER_ERR: {
+            const signupError:string = action.payload;
+            return {
+                ...state,
+                signupError
             }
         }
 

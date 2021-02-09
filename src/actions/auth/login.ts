@@ -3,7 +3,7 @@ import { Action } from "../../Interface/Action";
 
 export const FORM_HANDLER:string = "LOGIN_FORM_HANDLER";
 export const LOADER:string = "LOGIN_LOADER"
-export const LOGIN_ERR:string = "LOGIN_ERROR";
+export const SERVER_ERR:string = "LOGIN_ERROR";
 
 export const setFormData = (name:string,value:string):Action => {
     return {
@@ -33,7 +33,7 @@ export const showLoader = (show:boolean):Action => {
 
 export const loginError = (msg:string):Action => {
     return {
-        type: LOGIN_ERR,
+        type: SERVER_ERR,
         payload: msg
     }
 }
