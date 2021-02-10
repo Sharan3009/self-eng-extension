@@ -13,7 +13,7 @@ class Qr extends Component<any>{
     }
 
     private getNewQr = ():void => {
-        this.props.dispatch(generateQr())
+        this.props.dispatch(generateQr());
     }
 
     render(){
