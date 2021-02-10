@@ -1,10 +1,10 @@
-import { Socket } from "socket.io-client";
+import { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import { Dispatch } from "react";
-import { Middleware } from "redux";
+import { SocketAction, SocketEvents } from "../Interface/socket";
 
-export default function socketMiddleware(socket:Socket):Middleware {
+export default function socketMiddleware(socket:SocketEvents):Middleware {
     // Socket param is the client. We'll show how to set this up later.
-    return ({dispatch, getState}:{dispatch:Dispatch<any>,getState:Function}) => (next:Function) => (action:any) => {
+    return ({dispatch, getState}:MiddlewareAPI) => (next:Dispatch<AnyAction>) => (action:SocketAction|Function) => {
       if (typeof action === 'function') {
         return action(dispatch, getState);
       }
@@ -17,7 +17,7 @@ export default function socketMiddleware(socket:Socket):Middleware {
        */
       const { promise, type, types, ...rest } = action;
   
-      if (type !== 'socket' || !promise) {
+      if (type !== "socket" || !promise) {
         // Move on! Not a socket request or a badly formed one.
         return next(action);
       }  

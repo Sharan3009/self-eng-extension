@@ -1,11 +1,11 @@
-import { Socket } from "socket.io-client";
+import { SocketAction, SocketActionType, SocketEvents } from "../Interface/socket";
 
 export const SEND:string = 'SOCKET_SEND';
 export const SEND_SUCCESS:string = 'SOCKET_SEND_SUCCESS';
 export const SEND_FAIL:string = 'SOCKET_SEND_FAIL';
 
-const TYPE = {
-  type : 'socket',
+const TYPE:SocketActionType = {
+  type : "socket",
   /*
   Comment 1: 
   keeping this types as it is.
@@ -16,30 +16,30 @@ const TYPE = {
 }
 
 
-export const socketConnect = () => {
+export const socketConnect = ():SocketAction => {
   return {
     ...TYPE,
-    promise: (socket:Socket)=>socket.connect()
+    promise: (socket:SocketEvents)=>socket.connect()
   }
 }
 
-export const socketDisconnect = () => {
+export const socketDisconnect = ():SocketAction => {
   return {
     ...TYPE,
-    promise: (socket:Socket)=>socket.disconnect()
+    promise: (socket:SocketEvents)=>socket.disconnect()
   }
 }
 
-export const socketOn = (event:string,cb:Function) => {
+export const socketOn = (event:string,cb:Function):SocketAction => {
   return {
     ...TYPE,
-    promise: (socket:Socket)=>socket.on(event,cb)
+    promise: (socket:SocketEvents)=>socket.on(event,cb)
   }
 }
 
-export const socketEmit = (event:string, data:any)  => {
+export const socketEmit = (event:string, data:any):SocketAction  => {
     return {
       ...TYPE,
-      promise: (socket:Socket) => socket.emit(event, data),
+      promise: (socket:SocketEvents) => socket.emit(event, data),
     }
 }
