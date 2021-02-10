@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import { SocketEvents } from '../Interface/socket';
+import { SocketEvents } from '../Interface/Socket';
 
 // Example conf. You can move this to your config file.
 const host:string = process.env.REACT_APP_DOMAIN as string;

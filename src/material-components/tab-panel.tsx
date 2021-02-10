@@ -7,6 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Qr from '../components/main/qr';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -64,7 +65,7 @@ export default function FullWidthTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="sticky" color="default">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -84,7 +85,7 @@ export default function FullWidthTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          <Qr/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Item Two

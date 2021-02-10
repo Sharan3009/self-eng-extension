@@ -1,4 +1,4 @@
-import { SocketAction, SocketActionType, SocketEvents } from "../Interface/socket";
+import { SocketAction, SocketActionType, SocketEvents } from "../Interface/Socket";
 
 export const SEND:string = 'SOCKET_SEND';
 export const SEND_SUCCESS:string = 'SOCKET_SEND_SUCCESS';
@@ -37,7 +37,7 @@ export const socketOn = (event:string,cb:Function):SocketAction => {
   }
 }
 
-export const socketEmit = (event:string, data:any):SocketAction  => {
+export const socketEmit = (event:string, data?:any):SocketAction  => {
     return {
       ...TYPE,
       promise: (socket:SocketEvents) => socket.emit(event, data),

@@ -5,7 +5,7 @@ import GoogleButton from "../shared/googleButton/googleButton";
 import Login from "./login";
 import Skip from "../shared/skip";
 
-class Entry extends Component<RouteComponentProps> {
+class Entry extends Component<any> {
 
     loginWithGoogle = ():void => {
         google.init();
@@ -19,7 +19,7 @@ class Entry extends Component<RouteComponentProps> {
 
     render(){
         return <div className="d-flex align-items-center h-100">
-                <div className="mx-auto wpx-240 mt-5">
+                <div className="mx-auto wpx-240">
                     <GoogleButton onClick={this.loginWithGoogle}/>
                     <div className="d-flex align-items-center text-muted py-2">
                         <div className="col border-bottom h-50"></div>

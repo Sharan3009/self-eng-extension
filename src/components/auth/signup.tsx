@@ -1,8 +1,8 @@
 import React, { Component, FormEvent, createRef } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SignupButton from "../shared/authButton/authButton";
 import { TextField } from "@material-ui/core";
-import { compose, Store } from "redux";
+import { compose } from "redux";
 import { connect } from "react-redux";
 import { ISignUpProps, ISignUpObj } from "../../Interface/CredentialForm";
 import { setFormData, setFieldError, setFieldTouch, signUpApi, showLoader, serverMsg } from "../../actions/auth/signup";
@@ -14,7 +14,7 @@ type ErrAndMsg = {
     error:boolean,
     message:string
 }
-class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
+class SignUp extends Component<any> {
 
     private ref:any = {
         name:createRef(),
@@ -131,7 +131,7 @@ class SignUp extends Component<RouteComponentProps&ISignUpProps&Store> {
         const {name,email,password,confirmPassword,loader,serverErr,serverMsg} = this.props;
         return <div className="d-flex align-items-center h-100">
             <Loader isLoader={loader}/>
-            <form className="mx-auto wpx-240 mt-5" onSubmit={this.validateAndSignUp} noValidate>
+            <form className="mx-auto wpx-240" onSubmit={this.validateAndSignUp} noValidate>
                 <TextField
                     error={name.error}
                     label="Name"
