@@ -1,9 +1,10 @@
 import { io, Socket } from 'socket.io-client';
+import { SocketEvents } from '../Interface/socket';
 
 // Example conf. You can move this to your config file.
 const host:string = process.env.REACT_APP_DOMAIN as string;
 
-class CustomSocket {
+class CustomSocket implements SocketEvents {
   private socket:Socket = io(
       host
   )
@@ -15,8 +16,9 @@ class CustomSocket {
     });
   }
 
-  public disconnect = ():void => {
+  public disconnect = ():Promise<any> => {
     this.socket.disconnect();
+    return Promise.resolve();
   }
 
   public emit = (event:string, data:any):Promise<any> => {
