@@ -3,20 +3,16 @@ import storage from "./Storage";
 
 class Auth {
 
-    public isAuthenticated = async ():Promise<any> => {
-        const token:string = await storage.get(AUTH_TOKEN);
-        if(token){
-            return token;
-        }
-        throw new Error();
+    public getAuthToken = async ():Promise<any> => {
+        return this.getToken(AUTH_TOKEN);
     }
 
-    public getToken = async ():Promise<any> => {
-        let token:string = await storage.get(AUTH_TOKEN);
-        if(token){
-            return token;
-        }
-        token = await storage.get(CLIENT_TOKEN);
+    public getClientToken = async ():Promise<any> => {
+        return this.getToken(CLIENT_TOKEN);
+    }
+
+    private getToken = async (key:string):Promise<any> => {
+        const token:string = await storage.get(key);
         if(token){
             return token;
         }

@@ -6,7 +6,8 @@ import Auth from '../Class/Auth';
 axios.interceptors.request.use( async (config) => {
     // Do something before request is sent
     config.headers = {
-      token : await Auth.getToken()
+      authtoken : await Auth.getAuthToken(),
+      clienttoken: await Auth.getClientToken()
     }
     return config;
   }, (error) => {
