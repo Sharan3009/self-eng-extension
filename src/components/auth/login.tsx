@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import storage from "../../Class/Storage";
 import Loader from "../shared/loader/loader";
 import Error from "../shared/error";
+import { AUTH_TOKEN } from "../../constants/storage";
 
 class Login extends Component<any> {
 
@@ -21,7 +22,7 @@ class Login extends Component<any> {
         .then((token:string)=>{
             this.props.dispatch(serverMsg(""));
             this.props.dispatch(showLoader(false));
-            storage.set("authToken",token)
+            storage.set(AUTH_TOKEN,token)
         })
         .catch((error)=>{
             this.props.dispatch(serverMsg(error));

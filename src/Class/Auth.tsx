@@ -1,11 +1,10 @@
+import { AUTH_TOKEN } from "../constants/storage";
 import storage from "./Storage";
 
 class Auth {
 
-    private authKey:string = "authToken";
-
     public isAuthenticated = async ():Promise<any> => {
-        const token:string = await storage.get<string>(this.authKey);
+        const token:string = await storage.get<string>(AUTH_TOKEN);
         if(token){
             return token;
         }
