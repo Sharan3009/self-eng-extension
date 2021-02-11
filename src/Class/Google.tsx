@@ -5,7 +5,7 @@ class GoogleSSO {
 
     public init = ():void => {
         const req:BgRequest = {
-            type: "google",
+            type: "GOOGLE_LOGIN",
             payload: AUTH_TOKEN
         }
         chrome.runtime.sendMessage(req);

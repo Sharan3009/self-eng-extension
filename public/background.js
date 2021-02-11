@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener(function (requestObj, sender, sendMessage) 
 
     switch (requestObj.type) {        
 
-        case "google": {
+        case "GOOGLE_LOGIN": {
             let popupWidth = 460;
             let popupHeight=560;
             chrome.windows.create({ url: "http://localhost:3000/api/v1/google/auth", type: "popup",
