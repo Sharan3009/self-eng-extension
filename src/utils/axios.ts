@@ -1,12 +1,15 @@
 
 import axios, { AxiosResponse } from 'axios';
+import Auth from '../Class/Auth';
 
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use( async (config) => {
     // Do something before request is sent
-    console.log(config);
+    config.headers = {
+      token : await Auth.getToken()
+    }
     return config;
-  }, function (error) {
+  }, (error) => {
     // Do something with request error
     return Promise.reject(error);
   });
@@ -15,7 +18,7 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use((response:AxiosResponse) => {
     // Do something with response data
     return response.data;
-  }, function (error) {
+  }, (error) => {
     // Do something with response error
     let err:string = "Something went wrong";
     const { response : {status,data} } = error;
