@@ -1,4 +1,4 @@
-import axios from "../../utils/axios";
+import axios from "axios";
 import { Action } from "../../Interface/Action";
 
 export const FORM_HANDLER:string = "LOGIN_FORM_HANDLER";
@@ -16,7 +16,7 @@ export const setFormData = (name:string,value:string):Action => {
 
 export const loginApi = (email:string,password:string):Promise<any> => {
     return axios.post(
-        `${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_API_VERSION}user/login`,
+        "user/login",
         {
             email,
             password

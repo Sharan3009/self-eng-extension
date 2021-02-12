@@ -1,9 +1,12 @@
 
 import axios, { AxiosResponse } from 'axios';
 import Auth from '../Class/Auth';
+const baseUrl:string = process.env.REACT_APP_DOMAIN as string;
+const apiVersion:string = process.env.REACT_APP_API_VERSION as string;
 
 // Add a request interceptor
 axios.interceptors.request.use( async (config) => {
+    config.baseURL = `${baseUrl}${apiVersion}`;
     // Do something before request is sent
     config.headers = {
       authtoken : await Auth.getAuthToken(),
