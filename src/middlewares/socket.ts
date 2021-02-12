@@ -47,14 +47,16 @@ const socketMiddleware = (socket:SocketEvents):Middleware => {
 }
 
 const subscribeToChannels = (socket:SocketEvents, dispatch:Dispatch<AnyAction>) => {
-  CHANNELS.forEach((channel:string)=>{
-    socket.on(channel,(resp:Response<any>)=>{
-      dispatch({
-        type:channel,
-        payload: resp
-      })
+    CHANNELS.forEach(async (channel:string)=>{
+      try{
+        await socket.on(channel,(resp:Response<any>)=>{
+          dispatch({
+            type:channel,
+            payload: resp
+          })
+        })
+      } catch (e:any){}
     })
-  })
 }
 
 export default socketMiddleware;
