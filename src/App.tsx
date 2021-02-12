@@ -6,13 +6,7 @@ import SignUp from "./components/auth/signup";
 import AuthenticatedRedirect from "./HOC/AuthenticatedRedirect";
 import Home from './components/main/home';
 import { connect } from "react-redux";
-import { socketConnect } from './actions/socket';
-
 class App extends React.Component<any> {
-
-  componentDidMount(){
-    this.props.dispatch(socketConnect());
-  }
   
   render(){
     return(

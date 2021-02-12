@@ -8,7 +8,6 @@ export interface SocketAction extends SocketActionType{
 }
 
 export interface SocketEvents {
-    connect: ()=>Promise<any>,
     disconnect: ()=>Promise<any>,
     on: (event:string,data:any)=>Promise<any>,
     emit: (event:string,data:any)=>Promise<any>

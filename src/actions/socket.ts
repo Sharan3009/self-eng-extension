@@ -16,13 +16,6 @@ const TYPE:SocketActionType = {
 }
 
 
-export const socketConnect = ():SocketAction => {
-  return {
-    ...TYPE,
-    promise: (socket:SocketEvents)=>socket.connect()
-  }
-}
-
 export const socketDisconnect = ():SocketAction => {
   return {
     ...TYPE,

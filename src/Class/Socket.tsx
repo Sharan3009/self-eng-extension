@@ -1,19 +1,25 @@
 import { io, Socket } from 'socket.io-client';
 import { SocketEvents } from '../Interface/Socket';
+import { getExtraHeaders } from '../utils/network';
 
 // Example conf. You can move this to your config file.
 const host:string = process.env.REACT_APP_DOMAIN as string;
 
 class CustomSocket implements SocketEvents {
-  private socket:Socket = io(
-      host
-  )
 
-  public connect = ():Promise<any> => {
-    return new Promise((resolve, reject) => {
-        this.socket.on("connect", ()=>resolve(true));
-        this.socket.on("connect_error",(error:any)=> reject(error));
-    });
+  private socket:Socket;
+
+  constructor(){
+    this.connect();
+  }
+
+  private connect = async ():Promise<any> => {
+    this.socket = await io(
+      host,
+      {
+        extraHeaders: await getExtraHeaders()
+      }
+    )
   }
 
   public disconnect = ():Promise<any> => {
