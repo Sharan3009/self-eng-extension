@@ -1,9 +1,6 @@
 
 import axios, { AxiosResponse } from 'axios';
-import Auth from '../Class/Auth';
-import storage from '../Class/Storage';
-import { AUTH_TOKEN, CLIENT_TOKEN } from '../constants/storage';
-import { getExtraHeaders } from './network';
+import { getExtraHeaders, setTokenInStorage } from './helperFunctions';
 const baseUrl:string = process.env.REACT_APP_DOMAIN as string;
 const apiVersion:string = process.env.REACT_APP_API_VERSION as string;
 
@@ -21,13 +18,7 @@ axios.interceptors.request.use( async (config) => {
 // Add a response interceptor
 axios.interceptors.response.use((response:AxiosResponse) => {
     // Do something with response data
-    const {authtoken,clienttoken} = response.headers;
-    if(authtoken){
-      storage.set(AUTH_TOKEN,authtoken);
-    }
-    if(clienttoken){
-      storage.set(CLIENT_TOKEN,clienttoken);
-    }
+    setTokenInStorage(response.headers);
     return response.data;
   }, (error) => {
     // Do something with response error

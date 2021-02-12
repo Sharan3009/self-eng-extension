@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import { SocketEvents } from '../Interface/Socket';
-import { getExtraHeaders } from '../utils/network';
+import { getExtraHeaders } from '../utils/helperFunctions';
 
 // Example conf. You can move this to your config file.
 const host:string = process.env.REACT_APP_DOMAIN as string;
