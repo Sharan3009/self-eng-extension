@@ -8,10 +8,12 @@ const AuthenticatedRedirectRoute = ({ component: Component, ...rest }:RouteProps
   const [state, setState]:[string,React.Dispatch<React.SetStateAction<string>>] = useState("loading");
 
   useEffect(() => {
-    Auth.getAuthToken().then(()=>{
-      setState("authenticated");
-    }).catch(()=>{
-      setState("unauthenticated");
+    Auth.getAuthToken().then((token:string)=>{
+      if(token){
+        setState("authenticated");
+      } else {
+        setState("unauthenticated");
+      }
     })
   });
 

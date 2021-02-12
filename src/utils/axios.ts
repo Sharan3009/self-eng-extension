@@ -22,10 +22,13 @@ axios.interceptors.response.use((response:AxiosResponse) => {
   }, (error) => {
     // Do something with response error
     let err:string = "Something went wrong";
-    const { response : {status,data} } = error;
-    if(data){
-      err = data;
-    }
+    try{
+      const { response : {status,data} } = error;
+      if(data){
+        err = data;
+      }
+    } catch(e:any){}
+
     return Promise.reject(err);
   });
 

@@ -16,7 +16,7 @@ class Auth {
         if(token){
             return token;
         }
-        throw new Error();
+        return "";
     }
 }
 
