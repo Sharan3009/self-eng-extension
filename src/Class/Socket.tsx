@@ -1,6 +1,7 @@
 import { io, Socket } from 'socket.io-client';
+import { Executor } from '../Interface/Executor';
 import { SocketEvents } from '../Interface/Socket';
-import { getExtraHeaders } from '../utils/helperFunctions';
+import { getAuthHeader } from '../utils/helperFunctions';
 
 // Example conf. You can move this to your config file.
 const host:string = process.env.REACT_APP_DOMAIN as string;
@@ -9,17 +10,19 @@ class CustomSocket implements SocketEvents {
 
   private socket:Socket;
 
-  constructor(){
-    this.connect();
-  }
-
-  private connect = async ():Promise<any> => {
-    this.socket = await io(
-      host,
-      {
-        extraHeaders: await getExtraHeaders()
-      }
-    )
+  public connect = ():Promise<any> => {
+    return new Promise(async (resolve:Executor,reject:Executor)=>{
+      this.socket = io(
+        host,
+        {
+          extraHeaders:{
+            ...await getAuthHeader()
+          }
+        }
+      );
+      this.socket.on("connect",resolve);
+      this.socket.on("connect_error",reject);
+    })
   }
 
   public disconnect = ():Promise<any> => {
@@ -29,9 +32,9 @@ class CustomSocket implements SocketEvents {
 
   public emit = (event:string, data:any):Promise<any> => {
     return new Promise((resolve, reject) => {
-      if (this.socket.disconnected) return reject('No socket connection.');
+      if (!this.socket || this.socket.disconnected) return reject('No socket connection.');
 
-      return this.socket.emit(event, data, (response:any) => {
+      this.socket.emit(event, data, (response:any) => {
         // Response is the optional callback that you can use with socket.io in every request. See 1 above.
         if (response.error) {
           return reject(response.error);
@@ -45,11 +48,13 @@ class CustomSocket implements SocketEvents {
   public on = (event:string, fun:Function):Promise<any> => {
     // No promise is needed here, but we're expecting one in the middleware.
     return new Promise((resolve, reject) => {
-      if (!this.socket) return reject('No socket connection.');
-
-      this.socket.on(event, fun);
+      this.socket.off(event).on(event, fun);
       resolve(true);
     });
+  }
+
+  public isConnected = ():boolean => {
+    return this.socket && this.socket.connected;
   }
 }
 

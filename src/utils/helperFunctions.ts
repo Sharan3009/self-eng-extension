@@ -2,19 +2,31 @@ import Auth from "../Class/Auth"
 import storage from "../Class/Storage";
 import { AUTH_TOKEN, CLIENT_TOKEN } from "../constants/storage";
 
-export const getExtraHeaders = async ():Promise<any> => {
-    return {
-        authtoken : await Auth.getAuthToken(),
-        clienttoken: await Auth.getClientToken()
-      }
+const getAuth = async ():Promise<string> => {
+  const authToken:string = await Auth.getAuthToken();
+  const clientToken:string = await Auth.getClientToken();
+  let auth:string = "";
+  if(authToken){
+    auth += `${AUTH_TOKEN} ${authToken}`;
+  }
+  if(clientToken){
+    auth += `${CLIENT_TOKEN} ${clientToken}`;
+  }
+  return auth;
 }
 
 export const setTokenInStorage = (obj:any) => {
-    const {authtoken,clienttoken} = obj;
-    if(authtoken){
-      storage.set(AUTH_TOKEN,authtoken);
-    }
-    if(clienttoken){
-      storage.set(CLIENT_TOKEN,clienttoken);
-    }
+  const {authtoken,clienttoken} = obj;
+  if(authtoken){
+    storage.set(AUTH_TOKEN,authtoken);
+  }
+  if(clienttoken){
+    storage.set(CLIENT_TOKEN,clienttoken);
+  }
+}
+
+export const getAuthHeader = async ():Promise<any> => {
+  return {
+    authorization: await getAuth()
+  }
 }

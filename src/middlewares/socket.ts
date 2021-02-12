@@ -7,8 +7,11 @@ import { Response } from "../Interface/Response";
 const socketMiddleware = (socket:SocketEvents):Middleware => {
   // Socket param is the client. We'll show how to set this up later.
   return ({dispatch, getState}:MiddlewareAPI) => (next:Dispatch<AnyAction>) => {
-
-    subscribeToChannels(socket,dispatch);
+    
+    socket.connect()
+    .then(()=>{
+      subscribeToChannels(socket,dispatch);
+    })
 
     return (action:SocketAction|Function) => {
 
@@ -48,14 +51,12 @@ const socketMiddleware = (socket:SocketEvents):Middleware => {
 
 const subscribeToChannels = (socket:SocketEvents, dispatch:Dispatch<AnyAction>) => {
     CHANNELS.forEach(async (channel:string)=>{
-      try{
-        await socket.on(channel,(resp:Response<any>)=>{
-          dispatch({
-            type:channel,
-            payload: resp
-          })
+      socket.on(channel,(resp:Response<any>)=>{
+        dispatch({
+          type:channel,
+          payload: resp
         })
-      } catch (e:any){}
+      })
     })
 }
 

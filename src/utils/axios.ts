@@ -1,6 +1,6 @@
 
 import axios, { AxiosResponse } from 'axios';
-import { getExtraHeaders, setTokenInStorage } from './helperFunctions';
+import { getAuthHeader, setTokenInStorage } from './helperFunctions';
 const baseUrl:string = process.env.REACT_APP_DOMAIN as string;
 const apiVersion:string = process.env.REACT_APP_API_VERSION as string;
 
@@ -8,7 +8,9 @@ const apiVersion:string = process.env.REACT_APP_API_VERSION as string;
 axios.interceptors.request.use( async (config) => {
     config.baseURL = `${baseUrl}${apiVersion}`;
     // Do something before request is sent
-    config.headers = await getExtraHeaders();
+    config.headers = {
+      ...await getAuthHeader()
+    };
     return config;
   }, (error) => {
     // Do something with request error
