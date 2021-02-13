@@ -26,9 +26,12 @@ axios.interceptors.response.use((response:AxiosResponse) => {
     // Do something with response error
     let err:string = "Something went wrong";
     try{
-      const { response : {status,data} } = error;
+      const { response : {status,data,headers} } = error;
       if(data){
         err = data;
+      }
+      if(headers){
+        setTokenInStorage(headers);
       }
     } catch(e:any){}
 

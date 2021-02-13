@@ -16,12 +16,12 @@ const getAuth = async ():Promise<string> => {
 }
 
 export const setTokenInStorage = (obj:any) => {
-  const {authToken,clientToken} = obj;
-  if(authToken){
-    storage.set(AUTH_TOKEN,authToken);
+  const {authtoken,clienttoken} = obj;
+  if(authtoken){
+    storage.set(AUTH_TOKEN,authtoken);
   }
-  if(clientToken){
-    storage.set(CLIENT_TOKEN,clientToken);
+  if(clienttoken){
+    storage.set(CLIENT_TOKEN,clienttoken);
   }
 }
 
