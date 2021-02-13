@@ -1,20 +1,10 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { generateQr } from "../../actions/main/qr";
 import { QrProps } from "../../Interface/Qr";
-import { Response } from "../../Interface/Response";
 import Error from "../shared/error";
 
 class Qr extends Component<any>{
-
-    componentDidMount(){
-        this.getNewQr();
-    }
-
-    private getNewQr = ():void => {
-        this.props.dispatch(generateQr());
-    }
 
     render(){
         const { qrObj } = this.props;
