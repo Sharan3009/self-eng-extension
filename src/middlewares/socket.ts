@@ -50,7 +50,7 @@ const socketMiddleware = (socket:SocketEvents):Middleware => {
 }
 
 const subscribeToChannels = (socket:SocketEvents, dispatch:Dispatch<AnyAction>) => {
-    CHANNELS.forEach(async (channel:string)=>{
+    CHANNELS.forEach((channel:string)=>{
       socket.on(channel,(resp:Response<any>)=>{
         dispatch({
           type:channel,

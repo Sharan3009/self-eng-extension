@@ -10,19 +10,16 @@ class CustomSocket implements SocketEvents {
 
   private socket:Socket;
 
-  public connect = ():Promise<any> => {
-    return new Promise(async (resolve:Executor,reject:Executor)=>{
+  public connect = async ():Promise<any> => {
+      const headers:any = await getAuthHeader();
       this.socket = io(
         host,
         {
           extraHeaders:{
-            ...await getAuthHeader()
+            ...headers
           }
         }
       );
-      this.socket.on("connect",resolve);
-      this.socket.on("connect_error",reject);
-    })
   }
 
   public disconnect = ():Promise<any> => {
