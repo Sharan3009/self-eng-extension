@@ -2,19 +2,21 @@ import { createStore, combineReducers, Reducer, Store, applyMiddleware, Middlewa
 import signup from "./reducers/auth/signup";
 import login from "./reducers/auth/login";
 import qr from "./reducers/main/qr";
+import socket from "./reducers/socket";
 import socketMiddleware from "./middlewares/socket";
-import socket from "./Class/Socket";
+import Socket from "./Class/Socket";
 import thunk from "redux-thunk";
 
 const reducer:Reducer = combineReducers({
     signup,
     login,
-    qr
+    qr,
+    socket
 });
 
 const middlewares:Middleware[] = [
     thunk,
-    socketMiddleware(socket)
+    socketMiddleware(Socket)
 ];
 
 const store:Store = createStore(
