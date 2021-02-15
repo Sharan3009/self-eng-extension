@@ -1,4 +1,4 @@
-import { SEND } from '../actions/socket';
+import { ADD_BACKLOG, SEND } from '../actions/socket';
 import { AUTHORIZATION } from '../constants/socket';
 import { Action } from '../Interface/Action';
 import { setTokenInStorage } from '../utils/helperFunctions';
@@ -6,7 +6,10 @@ import { setTokenInStorage } from '../utils/helperFunctions';
 Reducer is currently not in use.
 Check comment 1 in socket.action.js for explanation
 */
-const reducer = (state = {}, action:Action) => {
+const initialState = {
+  backlog: []
+}
+const reducer = (state = initialState, action:Action) => {
     switch(action.type) {
       case SEND: {
         return {
@@ -18,6 +21,12 @@ const reducer = (state = {}, action:Action) => {
         setTokenInStorage(action.payload);
         return {
           ...state
+        }
+      }
+      case ADD_BACKLOG: {
+        return {
+          ...state,
+          backlog : state.backlog.concat(action.payload)
         }
       }
       default: {

@@ -3,14 +3,18 @@ import { Dispatch } from "react";
 import { SocketAction, SocketEvents } from "../Interface/Socket";
 import { CHANNELS } from "../constants/socket";
 import { Response } from "../Interface/Response";
+import { Action } from "../Interface/Action";
+import { socketEmit, socketOn } from "../actions/socket";
 
 const socketMiddleware = (socket:SocketEvents):Middleware => {
   // Socket param is the client. We'll show how to set this up later.
   return ({dispatch, getState}:MiddlewareAPI) => (next:Dispatch<AnyAction>) => {
     
-    socket.connect()
-    .then(()=>{
-      subscribeToChannels(socket,dispatch);
+    socket.connect(()=>{
+      clearBacklog(dispatch,getState().socket.backlog);
+    })
+    .then((va)=>{
+      subscribeToChannels(dispatch);
     })
 
     return (action:SocketAction|Function) => {
@@ -42,22 +46,30 @@ const socketMiddleware = (socket:SocketEvents):Middleware => {
       .then((result:any) => {
         return next({...rest, result, type: SUCCESS });
       })
-      .catch((error:any) => {
+      .catch((error:Action) => {
+        dispatch(error);
         return next({...rest, error, type: FAILURE });
       })
     }
   };
 }
 
-const subscribeToChannels = (socket:SocketEvents, dispatch:Dispatch<AnyAction>) => {
-    CHANNELS.forEach((channel:string)=>{
-      socket.on(channel,(resp:Response<any>)=>{
-        dispatch({
-          type:channel,
-          payload: resp
-        })
+const subscribeToChannels = (dispatch:Dispatch<AnyAction>) => {
+  CHANNELS.forEach((channel:string)=>{
+    dispatch(socketOn(channel,(resp:Response<any>)=>{
+      dispatch({
+        type:channel,
+        payload: resp
       })
-    })
+    }))
+  })
+}
+
+const clearBacklog = (dispatch:Dispatch<AnyAction>,backlogs:Action[]):void => {
+  while(backlogs.length>0){
+    const backlog:Action = backlogs.shift() as Action;
+    dispatch(socketEmit(backlog.type,backlog.payload));
+  }
 }
 
 export default socketMiddleware;

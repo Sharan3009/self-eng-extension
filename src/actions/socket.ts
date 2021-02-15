@@ -1,8 +1,10 @@
+import { Action } from "../Interface/Action";
 import { SocketAction, SocketActionType, SocketEvents } from "../Interface/Socket";
 
 export const SEND:string = 'SOCKET_SEND';
 export const SEND_SUCCESS:string = 'SOCKET_SEND_SUCCESS';
 export const SEND_FAIL:string = 'SOCKET_SEND_FAIL';
+export const ADD_BACKLOG:string = "SOCKET_ADD_BACKLOG";
 
 const TYPE:SocketActionType = {
   type : "socket",
@@ -35,4 +37,11 @@ export const socketEmit = (event:string, data?:any):SocketAction  => {
       ...TYPE,
       promise: (socket:SocketEvents) => socket.emit(event, data),
     }
+}
+
+export const socketAddBacklog = (action:Action):Action => {
+  return {
+    type: ADD_BACKLOG,
+    payload: action
+  }
 }
