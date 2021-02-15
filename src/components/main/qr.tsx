@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { clearInterval, GENERATE, setQrInterval } from "../../actions/main/qr";
 import { socketEmit } from "../../actions/socket";
+import { qrInterval } from "../../config";
 import { QrProps } from "../../Interface/Qr";
 import Error from "../shared/error";
 
@@ -20,7 +21,7 @@ class Qr extends Component<any>{
     private generateQrAtIntervals = () => {
         const interval:number = window.setInterval(()=>{
             this.generateQr();
-        },5000)
+        },qrInterval)
         this.props.dispatch(setQrInterval(interval))
     }
 

@@ -1,10 +1,7 @@
 import { io, Socket } from 'socket.io-client';
-import { Executor } from '../Interface/Executor';
+import { host } from '../config';
 import { SocketEvents } from '../Interface/Socket';
 import { getAuthHeader } from '../utils/helperFunctions';
-
-// Example conf. You can move this to your config file.
-const host:string = process.env.REACT_APP_DOMAIN as string;
 
 class CustomSocket implements SocketEvents {
 

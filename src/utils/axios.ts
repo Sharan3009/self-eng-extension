@@ -1,12 +1,11 @@
 
 import axios, { AxiosResponse } from 'axios';
+import { apiVersion, host } from '../config';
 import { getAuthHeader, setTokenInStorage } from './helperFunctions';
-const baseUrl:string = process.env.REACT_APP_DOMAIN as string;
-const apiVersion:string = process.env.REACT_APP_API_VERSION as string;
 
 // Add a request interceptor
 axios.interceptors.request.use( async (config) => {
-    config.baseURL = `${baseUrl}${apiVersion}`;
+    config.baseURL = `${host}${apiVersion}`;
     // Do something before request is sent
     config.headers = {
       ...await getAuthHeader()
