@@ -1,5 +1,6 @@
 import { Response } from "./Response";
 
 export interface QrProps {
-    qrObj:Response<any>
+    qrObj:Response<any>,
+    qrInterval: number
 }

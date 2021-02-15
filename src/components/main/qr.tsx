@@ -1,10 +1,32 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { clearInterval, GENERATE, setQrInterval } from "../../actions/main/qr";
+import { socketEmit } from "../../actions/socket";
 import { QrProps } from "../../Interface/Qr";
 import Error from "../shared/error";
 
 class Qr extends Component<any>{
+
+    componentDidMount(){
+        this.generateQr();
+        this.generateQrAtIntervals()
+    }
+
+    componentWillUnmount(){
+        this.props.dispatch(clearInterval());
+    }
+
+    private generateQrAtIntervals = () => {
+        const interval:number = window.setInterval(()=>{
+            this.generateQr();
+        },5000)
+        this.props.dispatch(setQrInterval(interval))
+    }
+
+    private generateQr = () =>{
+        this.props.dispatch(socketEmit(GENERATE));
+    }
 
     render(){
         const { qrObj } = this.props;
@@ -21,9 +43,9 @@ type S2P = {
     qr:QrProps
 }
 const mapStateToProps = ({qr}:S2P) => {
-     const {qrObj} = qr;
+     const {qrObj, qrInterval} = qr;
      return {
-        qrObj
+        qrObj, qrInterval
      };
   }
 
