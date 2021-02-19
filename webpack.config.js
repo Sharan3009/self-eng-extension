@@ -2,7 +2,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        background: path.resolve(__dirname,"public/background.js"),
+        background: path.resolve(__dirname,"background.js"),
+        contentScript: path.resolve(__dirname,"contentScript.js")
     },
     mode: "development",
     output: {
