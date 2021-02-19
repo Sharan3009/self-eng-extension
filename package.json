@@ -32,7 +32,8 @@
     "build": "set \"INLINE_RUNTIME_CHUNK=false\" && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "watch": "cra-build-watch"
+    "watch:app": "cra-build-watch",
+    "watch:content": "webpack --watch"
   },
   "eslintConfig": {
     "extends": [
@@ -53,12 +54,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.12.17",
     "@types/axios": "^0.14.0",
     "@types/chrome": "0.0.128",
     "@types/jquery": "^3.5.5",
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-swipeable-views": "^0.13.0",
-    "cra-build-watch": "^3.4.0"
+    "cra-build-watch": "^3.4.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^4.5.0"
   }
 }
