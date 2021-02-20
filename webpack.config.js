@@ -11,7 +11,7 @@ module.exports = {
         path: path.resolve(__dirname, 'build'),
     },
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.tsx']
     },
     // the 'transform-runtime' plugin tells Babel to
     // require the runtime instead of inlining it.

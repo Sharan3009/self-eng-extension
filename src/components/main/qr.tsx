@@ -2,7 +2,6 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { clearInterval, GENERATE, setQrInterval } from "../../actions/main/qr";
-import { socketEmit } from "../../actions/socket";
 import { qrInterval } from "../../config";
 import { QrProps } from "../../Interface/Qr";
 import Error from "../shared/error";
@@ -26,7 +25,7 @@ class Qr extends Component<any>{
     }
 
     private generateQr = () =>{
-        this.props.dispatch(socketEmit(GENERATE));
+        chrome.runtime.sendMessage({type:"EMIT",payload:{type:GENERATE}});
     }
 
     render(){

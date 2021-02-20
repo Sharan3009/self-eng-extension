@@ -1,8 +1,11 @@
 import { Action } from "./src/Interface/Action";
 import {host, apiVersion} from "./src/config";
+import socket from "./service/socket";
 chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.MessageSender, sendMessage) => {
 
     let payload:any = requestObj.payload;
+
+    socket.connect();
 
     switch (requestObj.type) {        
 
@@ -35,6 +38,9 @@ chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.M
                 })
             })
             return false;
+        }
+        case "EMIT": {
+            socket.emit(payload.type);
         }
     }
 });
