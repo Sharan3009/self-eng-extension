@@ -1,4 +1,5 @@
 import $ from "jquery";
+import "bootstrap";
 class ContentScript {
     private selection:string="";
     constructor(){
@@ -24,10 +25,10 @@ class ContentScript {
     }
 
     private addDivLayer = (e:JQuery.DoubleClickEvent):void => {
-        let offset = $(e.target).offset();
-        // $("body").append(`<div style="position:fixed;top:0px;left:0px;right:0px;bottom:0px;z-index:999;"></div>`)
-        // let html:string = $(e.target).html();
-        // $(e.target).html(html.replace(this.selection,"haha"))
+        let offset = $(e.currentTarget).offset();
+        console.log(e.pageY,offset.top)
+        $("body").append(`<div style="position:absolute;left:${e.pageX-offset.left}px;top:${e.pageY-offset.top}px;" class="example-popover" data-toggle="popover" title="Selected word" data-content="${this.selection}"></div>`);
+        ($('.example-popover') as any).popover("show")
     }
 }
 export default new ContentScript();
