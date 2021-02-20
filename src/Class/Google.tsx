@@ -1,14 +1,11 @@
+import { GOOGLE_LOGIN } from "../constants/background";
 import { AUTH_TOKEN } from "../constants/storage";
-import { BgRequest } from "../Interface/Background";
+import { sendMessage } from "../utils/helperFunctions";
 import storage from "./Storage";
 class GoogleSSO {
 
     public init = ():void => {
-        const req:BgRequest = {
-            type: "GOOGLE_LOGIN",
-            payload: AUTH_TOKEN
-        }
-        chrome.runtime.sendMessage(req);
+        sendMessage(GOOGLE_LOGIN,AUTH_TOKEN);
     }
 
     public watchAuthToken = (cb:Function):void => {

@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import { host } from '../src/config';
-import { SocketEvents } from '../src/Interface/Socket';
+import { SocketEvents } from '../src/Interface/socket';
 import { getAuthHeader, setTokenInStorage } from '../src/utils/helperFunctions';
 import { Action } from "../src/Interface/Action";
 
@@ -47,8 +47,7 @@ class CustomSocket implements SocketEvents {
   }
 
   public on = (event:string, fun:Function):void => {
-    // No promise is needed here, but we're expecting one in the middleware.
-      this.socket.off(event).on(event, fun);
+    this.socket.off(event).on(event, fun);
   }
 
   public isConnected = ():boolean => {

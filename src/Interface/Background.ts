@@ -1,4 +1,5 @@
 export interface BgRequest {
+    from: "popup"|"content",
     type:string,
-    payload?:any;
+    data?:any;
 }

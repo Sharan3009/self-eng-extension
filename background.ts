@@ -1,14 +1,21 @@
 import { Action } from "./src/Interface/Action";
+import { BgRequest } from "./src/Interface/Background";
 import {host, apiVersion} from "./src/config";
 import socket from "./service/socket";
-import { GOOGLE_LOGIN, EMIT } from "./src/constants/background";
-chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.MessageSender, sendMessage) => {
+import { GOOGLE_LOGIN, EMIT, ON } from "./src/constants/background";
+import { Response } from "./src/Interface/Response";
+chrome.runtime.onMessage.addListener(async (requestObj:BgRequest, sender:chrome.runtime.MessageSender, sendResponse) => {
 
-    let payload:any = requestObj.payload;
+    const { from } = requestObj;
+    if(from==="content"){
+        return;
+    }
 
-    socket.connect();
+    const { type, data } = requestObj;
 
-    switch (requestObj.type) {        
+    await socket.connect();
+
+    switch (type) {        
 
         case GOOGLE_LOGIN: {
             let popupWidth:number = 460;
@@ -27,7 +34,7 @@ chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.M
                                         if (token) {
                                             chrome.tabs.remove(tabId);
                                             chrome.tabs.onUpdated.removeListener(listener);
-                                            chrome.storage.local.set({ [payload]: token });
+                                            chrome.storage.local.set({ [data]: token });
                                         }
                                         break;
                                     default:
@@ -41,10 +48,26 @@ chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.M
             return false;
         }
         case EMIT: {
-            socket.emit(payload.type);
+            const { type, payload } = data;
+            socket.emit(type,payload);
             return false;
+        }
+        case ON: {
+            console.log(data)
+            socket.on(data,(payload:Response<any>)=>{
+                sendMessage(data,payload);
+            });
         }
     }
 });
+
+const sendMessage = (type:string,data:any) => {
+    const req:BgRequest = {
+        from: "content",
+        type,
+        data
+    }
+    chrome.runtime.sendMessage(req)
+}
 
 export {}
