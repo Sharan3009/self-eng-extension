@@ -1,5 +1,6 @@
 import Auth from "../Class/Auth"
 import storage from "../Class/Storage";
+import { EMIT } from "../constants/background";
 import { AUTH_TOKEN, CLIENT_TOKEN } from "../constants/storage";
 
 const getAuth = async ():Promise<string> => {
@@ -29,4 +30,14 @@ export const getAuthHeader = async ():Promise<any> => {
   return {
     authorization: await getAuth()
   }
+}
+
+export const socketEmit = (event:string, data?:any):void => {
+  chrome.runtime.sendMessage({
+    type: EMIT,
+    payload: {
+      type: event,
+      payload:data
+    }
+  })
 }

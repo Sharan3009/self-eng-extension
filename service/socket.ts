@@ -57,7 +57,7 @@ class CustomSocket implements SocketEvents {
   private clearBacklog = ():void => {
     while(this.backlogs.length>0){
       const backlog:Action = this.backlogs.shift() as Action;
-      chrome.runtime.sendMessage({type:"EMIT",payload:backlog});
+      this.emit(backlog.type,backlog.payload);
     }
   }
 }

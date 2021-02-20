@@ -1,6 +1,7 @@
 import { Action } from "./src/Interface/Action";
 import {host, apiVersion} from "./src/config";
 import socket from "./service/socket";
+import { GOOGLE_LOGIN, EMIT } from "./src/constants/background";
 chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.MessageSender, sendMessage) => {
 
     let payload:any = requestObj.payload;
@@ -9,7 +10,7 @@ chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.M
 
     switch (requestObj.type) {        
 
-        case "GOOGLE_LOGIN": {
+        case GOOGLE_LOGIN: {
             let popupWidth:number = 460;
             let popupHeight:number=560;
             chrome.windows.create({ url: `${host}${apiVersion}google/auth`, type: "popup",
@@ -39,8 +40,9 @@ chrome.runtime.onMessage.addListener((requestObj:Action, sender:chrome.runtime.M
             })
             return false;
         }
-        case "EMIT": {
+        case EMIT: {
             socket.emit(payload.type);
+            return false;
         }
     }
 });
