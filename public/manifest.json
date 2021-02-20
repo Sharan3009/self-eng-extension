@@ -16,7 +16,8 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["contentScript.js"]
+      "js": ["contentScript.js"],
+      "css":["bootstrap.css"]
     }
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-pMt3wxVq2SfXeHGmnqP21dUMpb6r0rRBOaLuWFXPZ+g' https://ssl.google-analytics.com https://www.google-analytics.com/analytics.js https://connect.facebook.net https://platform.twitter.com https://staticxx.facebook.com; object-src 'self'"

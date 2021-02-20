@@ -61,6 +61,9 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/react-swipeable-views": "^0.13.0",
     "cra-build-watch": "^3.4.0",
+    "css-loader": "^5.0.2",
+    "sass-loader": "^10.1.1",
+    "style-loader": "^2.0.0",
     "ts-loader": "^8.0.17",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.5.0"
