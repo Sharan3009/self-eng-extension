@@ -1,7 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 import { host } from '../src/config';
 import { SocketEvents } from '../src/Interface/Socket';
-import { getAuthHeader } from '../src/utils/helperFunctions';
+import { getAuthHeader, setTokenInStorage } from '../src/utils/helperFunctions';
 import { Action } from "../src/Interface/Action";
 
 class CustomSocket implements SocketEvents {
@@ -22,8 +22,9 @@ class CustomSocket implements SocketEvents {
         }
       }
     );
-    this.socket.on("connect",this.clearBacklog);
-    this.socket.on("connect_error",()=>{
+    this.listenToAuthToken();
+    this.on("connect",this.clearBacklog);
+    this.on("connect_error",()=>{
       throw new Error("Connection was not established");
     })
   }
@@ -52,6 +53,12 @@ class CustomSocket implements SocketEvents {
 
   public isConnected = ():boolean => {
     return this.socket?.connected;
+  }
+
+  private listenToAuthToken = ():void => {
+    this.on("authorization",(tokenObj:any)=>{
+      setTokenInStorage(tokenObj)
+    })
   }
 
   private clearBacklog = ():void => {
