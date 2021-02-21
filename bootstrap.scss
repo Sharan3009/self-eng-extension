@@ -2,6 +2,7 @@
     @import "bootstrap/scss/functions";
     @import "bootstrap/scss/variables";
     @import "bootstrap/scss/mixins";
+    @import "bootstrap/scss/spinners";
 .injected-bootstrap {
     @import "bootstrap/scss/root";
     @import "bootstrap/scss/reboot";
@@ -33,7 +34,6 @@
     @import "bootstrap/scss/modal";
     @import "bootstrap/scss/tooltip";
     @import "bootstrap/scss/carousel";
-    @import "bootstrap/scss/spinners";
     @import "bootstrap/scss/utilities";
 }
 @import "bootstrap/scss/popover";

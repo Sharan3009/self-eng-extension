@@ -2,6 +2,7 @@ import $ from "jquery";
 import "bootstrap";
 import { BgRequest } from "./src/Interface/Background";
 import { EMIT, ON } from "./src/constants/background";
+import { Response } from "./src/Interface/Response";
 class ContentScript {
     private selection:string="";
     private popoverId:string = "examplePopover";
@@ -14,9 +15,14 @@ class ContentScript {
     }
 
     private init = ():void => {
+        this.addWhiteListPopover();
         this.listenToSocket();
         this.closePopupOnBodyClick();
         this.openPopupOnBodyDblClick();
+    }
+
+    private addWhiteListPopover = ():void => {
+        ($.fn as any).tooltip.Constructor.Default.whiteList['*'].push('style')
     }
 
     private listenToSocket = ():void => {
@@ -29,7 +35,7 @@ class ContentScript {
             if(requestObj.from!=="background"){
                 return;
             }
-            console.log(requestObj)
+            this.updatePopup(requestObj.data);
         })
     }
 
@@ -68,7 +74,28 @@ class ContentScript {
             returnVal = selection;
         }
         return returnVal;
+    }
 
+    private updatePopup = (obj:Response<any>):void => {
+        if(obj.status==="success"){
+            this.updatePopupSuccess(obj.data)
+        } else {
+            this.updatePopupError(obj.message);
+        }
+    }
+
+    private updatePopupError = (err:string):void => {
+        $(this.popoverIdSelector)
+        .attr("data-content",this.getPopupErrHtml(err))
+        .data("bs.popover")
+        .setContent();
+    }
+
+    private updatePopupSuccess = (data:any):void => {
+        $(this.popoverIdSelector)
+        .attr("data-content",this.getPopupSuccessHtml(data))
+        .data("bs.popover")
+        .setContent();
     }
 
     private addPopup = ():void => {
@@ -78,35 +105,65 @@ class ContentScript {
 
     private appendUniquelyToBody = ():void => {
         const html:string = this.getPopupHtml();
-        if(this.ifPopupExists()){
-            
-        } else {
-            this.bodyEle.append(html);
-        }
+        this.removePopup();
+        this.bodyEle.append(html);
         this.togglePopup(true);
     }
 
-    private ifPopupExists = ():boolean => {
-        return $(this.popoverIdSelector).length===1;
+    private removePopup = ():void => {
+        $(this.popoverIdSelector).remove();
     }
 
     private togglePopup = (show:boolean):void => {
-        ($(this.popoverIdSelector) as any).popover(show?"show":"hide");
+        ($(this.popoverIdSelector) as any)
+        .popover({
+            html:true
+        })
+        .popover(show?"show":"hide");
+    }
+
+    private getPopupErrHtml = (err:string): string => {
+        return `<div>
+                    <h3>Error occured</h3>
+                    <p>${err || "Something went wrong"}</p>
+                </div>`
+    }
+
+    private getPopupSuccessHtml = (data:any): string => {
+        return `<div>
+                    <h3>${data.title}</h3>
+                    <p>${data.meanings[0].definitions[0].meaning}</p>
+                </div>`
     }
 
     private getPopupHtml = ():string => {
         let html:string = "";
         const offset:JQuery.Coordinates|undefined = $(this.event.currentTarget).offset();
         if(offset){
+            const {pageX,pageY} = this.event;
             const {top,left} = offset;
-            html=`<div id="${this.popoverId}" style="position:absolute;
-            left:${this.event.pageX-offset.left}px;
-            top:${this.event.pageY-offset.top}px;" 
+            html=`<div id="${this.popoverId}" 
+            style="position:absolute;
+            left:${pageX-left}px;
+            top:${pageY-top}px;" 
             data-placement="top" 
-            data-content="${this.selection}">
+            data-content='${this.getLoader()}'>
             </div>`;
         }
         return html;
+    }
+
+    private getLoader = ():string => {
+        const dimension:number = 100;
+        return `
+        <div class="injected-bootstrap">
+            <div class="d-flex align-items-center justify-content-center"
+            style="height:${dimension}px;width:${dimension}px;">
+                <div class="spinner-grow text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>`
     }
 }
 export default new ContentScript();
