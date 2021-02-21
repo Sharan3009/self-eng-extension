@@ -48,7 +48,11 @@ chrome.runtime.onMessage.addListener(async (requestObj:BgRequest, sender:chrome.
             return false;
         }
         case EMIT: {
-            const { type, payload } = data;
+            let { type, payload } = data;
+            payload = {
+                rnd: generateId(),
+                payload
+            }
             socket.emit(type,payload);
             return false;
         }
@@ -73,5 +77,15 @@ const sendMessage = (type:string,data:any) => {
         chrome.tabs.sendMessage(myTabId, req);
     });
 }
+
+const generateId = (length:number=10):string => {
+    let result:string = '';
+    let characters:string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength:number = characters.length;
+    for (let i:number=0; i<length; i++){
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
 
 export {}
