@@ -70,7 +70,6 @@ const sendMessage = (type:string,data:any) => {
     chrome.runtime.sendMessage(req);
     chrome.tabs.query({active: true, currentWindow: true}, (tabs:chrome.tabs.Tab[])=>{
         let myTabId:number = tabs[0].id;
-        console.log(myTabId)
         chrome.tabs.sendMessage(myTabId, req);
     });
 }

@@ -36,10 +36,6 @@ class ContentScript {
     }
 
     private addPopup = (e:JQuery.DoubleClickEvent):void => {
-        this.addDivLayer(e);
-    }
-
-    private addDivLayer = (e:JQuery.DoubleClickEvent):void => {
         let offset = $(e.currentTarget).offset();
         $("body").append(`<div style="position:absolute;left:${e.pageX-offset.left}px;top:${e.pageY-offset.top}px;" data-placement="top" class="example-popover" data-content="${this.selection}"></div>`);
         ($('.example-popover') as any).popover("show");
