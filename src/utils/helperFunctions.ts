@@ -36,7 +36,6 @@ export const getAuthHeader = async ():Promise<any> => {
 
 export const sendMessage = (type:string,data?:any)=>{
   const obj:BgRequest = {
-    from: "popup",
     type,
     data
   }

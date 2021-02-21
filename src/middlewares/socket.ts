@@ -14,7 +14,7 @@ const socketMiddleware = (): Middleware => {
         });
         chrome.runtime.onMessage.addListener((requestObj: BgRequest, sender: chrome.runtime.MessageSender, sendResponse) => {
             const { from } = requestObj;
-            if (from === "popup") {
+            if (from !== "background") {
                 return;
             }
             const { type, data } = requestObj;

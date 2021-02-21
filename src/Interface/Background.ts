@@ -1,5 +1,5 @@
 export interface BgRequest {
-    from: "popup"|"content",
+    from?: "background"
     type:string,
     data?:any;
 }

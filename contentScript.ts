@@ -1,5 +1,6 @@
 import $ from "jquery";
 import "bootstrap";
+import { BgRequest } from "./src/Interface/Background";
 class ContentScript {
     private selection:string="";
     constructor(){
@@ -7,6 +8,17 @@ class ContentScript {
     }
 
     private init = ():void => {
+        const msg:BgRequest = {
+            type:"ON",
+            data:"GET_MEANING"
+        }
+        chrome.runtime.sendMessage(msg);
+        chrome.runtime.onMessage.addListener((requestObj:BgRequest, sender:chrome.runtime.MessageSender, sendResponse) => {
+            if(requestObj.from!=="background"){
+                return;
+            }
+            console.log(requestObj)
+        })
         this.addBodyDbClickEvent();
     }
 
@@ -29,9 +41,16 @@ class ContentScript {
 
     private addDivLayer = (e:JQuery.DoubleClickEvent):void => {
         let offset = $(e.currentTarget).offset();
-        console.log(e.pageY,offset.top)
         $("body").append(`<div style="position:absolute;left:${e.pageX-offset.left}px;top:${e.pageY-offset.top}px;" data-placement="top" class="example-popover" data-content="${this.selection}"></div>`);
-        ($('.example-popover') as any).popover("show")
+        ($('.example-popover') as any).popover("show");
+        const msg:BgRequest = {
+            type:"EMIT",
+            data:{
+                type:"GET_MEANING",
+                payload:this.selection
+            }
+        }
+        chrome.runtime.sendMessage(msg);
     }
 }
 export default new ContentScript();

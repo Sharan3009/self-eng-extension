@@ -7,7 +7,7 @@ import { Response } from "./src/Interface/Response";
 chrome.runtime.onMessage.addListener(async (requestObj:BgRequest, sender:chrome.runtime.MessageSender, sendResponse) => {
 
     const { from } = requestObj;
-    if(from==="content"){
+    if(from==="background"){
         return;
     }
 
@@ -53,21 +53,26 @@ chrome.runtime.onMessage.addListener(async (requestObj:BgRequest, sender:chrome.
             return false;
         }
         case ON: {
-            console.log(data)
             socket.on(data,(payload:Response<any>)=>{
                 sendMessage(data,payload);
             });
+            return false;
         }
     }
 });
 
 const sendMessage = (type:string,data:any) => {
     const req:BgRequest = {
-        from: "content",
+        from: "background",
         type,
         data
     }
-    chrome.runtime.sendMessage(req)
+    chrome.runtime.sendMessage(req);
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs:chrome.tabs.Tab[])=>{
+        let myTabId:number = tabs[0].id;
+        console.log(myTabId)
+        chrome.tabs.sendMessage(myTabId, req);
+    });
 }
 
 export {}
