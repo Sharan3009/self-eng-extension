@@ -20,7 +20,6 @@
     "noEmit": false,
     "jsx": "react-jsx",
     "strictPropertyInitialization": false,
-    "strictNullChecks": false
   },
   "include": [
     "src"

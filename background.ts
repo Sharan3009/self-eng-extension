@@ -73,8 +73,8 @@ const sendMessage = (type:string,data:any) => {
     }
     chrome.runtime.sendMessage(req);
     chrome.tabs.query({active: true, currentWindow: true}, (tabs:chrome.tabs.Tab[])=>{
-        let myTabId:number = tabs[0].id;
-        chrome.tabs.sendMessage(myTabId, req);
+        let myTabId:number|undefined = tabs[0].id;
+        myTabId && chrome.tabs.sendMessage(myTabId, req);
     });
 }
 
